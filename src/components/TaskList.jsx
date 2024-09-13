@@ -4,16 +4,20 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 
 const TaskList = ({ tasks }) => {
   return (
-    <>
+    <div className="flex space-x-4">
       {Object.entries(tasks || {}).map(([columnId, columnTasks]) => (
         <Card key={columnId} className="w-1/3 bg-teal-100">
           <CardHeader>
             <CardTitle className="text-teal-800">{columnId.charAt(0).toUpperCase() + columnId.slice(1)}</CardTitle>
           </CardHeader>
           <CardContent>
-            <Droppable droppableId={columnId}>
+            <Droppable droppableId={columnId} key={columnId}>
               {(provided) => (
-                <div {...provided.droppableProps} ref={provided.innerRef} className="min-h-[200px]">
+                <div
+                  {...provided.droppableProps}
+                  ref={provided.innerRef}
+                  className="min-h-[200px]"
+                >
                   {columnTasks.map((task, index) => (
                     <Draggable key={task.id} draggableId={task.id} index={index}>
                       {(provided) => (
@@ -35,7 +39,7 @@ const TaskList = ({ tasks }) => {
           </CardContent>
         </Card>
       ))}
-    </>
+    </div>
   );
 };
 
