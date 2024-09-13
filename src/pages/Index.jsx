@@ -56,10 +56,10 @@ const Index = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen gradient-bg relative">
+    <div className="flex flex-col h-screen bg-gradient-to-br from-teal-50 to-teal-100 relative">
       <FlowerOfLife />
       <main className="flex-grow p-4 flex flex-col relative z-10">
-        <Card className="flex-grow flex flex-col bg-white bg-opacity-80 backdrop-blur-sm">
+        <Card className="flex-grow flex flex-col bg-white bg-opacity-80 backdrop-blur-sm border-teal-200">
           <ScrollArea className="flex-grow p-4" ref={chatRef}>
             {messages.map((message, index) => (
               <div
@@ -71,8 +71,8 @@ const Index = () => {
                 <div
                   className={`chat-bubble ${
                     message.sender === 'user'
-                      ? 'chat-bubble-user'
-                      : 'chat-bubble-ai'
+                      ? 'chat-bubble-user bg-teal-500 text-white'
+                      : 'chat-bubble-ai bg-teal-100 text-teal-900'
                   }`}
                 >
                   {message.text}
@@ -80,7 +80,7 @@ const Index = () => {
               </div>
             ))}
             {isTyping && (
-              <div className="chat-bubble chat-bubble-ai">
+              <div className="chat-bubble chat-bubble-ai bg-teal-100 text-teal-900">
                 <span className="typing-indicator">Movement Creator is typing<span>.</span><span>.</span><span>.</span></span>
               </div>
             )}
@@ -92,12 +92,12 @@ const Index = () => {
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={handleKeyPress}
-              className="flex-grow mr-2"
+              className="flex-grow mr-2 border-teal-300 focus:ring-teal-500"
             />
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <Button onClick={handleSend}>
+                  <Button onClick={handleSend} className="bg-teal-500 hover:bg-teal-600 text-white">
                     <Send className="h-4 w-4 mr-2" />
                     Send
                   </Button>
@@ -111,7 +111,7 @@ const Index = () => {
         </Card>
       </main>
       <footer className="bg-white bg-opacity-80 shadow-sm p-4 mt-auto relative z-10">
-        <Button onClick={() => navigate('/auth')} variant="outline">
+        <Button onClick={() => navigate('/auth')} variant="outline" className="border-teal-500 text-teal-700 hover:bg-teal-50">
           <MessageSquare className="h-4 w-4 mr-2" />
           Create a Social Enterprise Account
         </Button>
