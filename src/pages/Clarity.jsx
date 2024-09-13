@@ -7,6 +7,9 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useLocation } from 'react-router-dom';
+import SolutionGenerator from '../components/SolutionGenerator';
+import ProjectDetails from '../components/ProjectDetails';
+import TaskList from '../components/TaskList';
 
 const initialProjects = [
   {
@@ -93,133 +96,68 @@ const Clarity = () => {
   };
 
   return (
-    <div className="min-h-screen bg-teal-50 p-8">
-      <h1 className="text-3xl font-bold mb-8 text-teal-800">Project Management</h1>
-      <div className="mb-6 flex justify-between items-center">
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <DialogTrigger asChild>
-            <Button onClick={() => setCurrentProject({})}>Add New Project</Button>
-          </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-              <DialogTitle>{currentProject?.id ? 'Edit Project' : 'Add New Project'}</DialogTitle>
-            </DialogHeader>
-            <div className="grid gap-4 py-4">
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="name" className="text-right">Name</Label>
-                <Input id="name" name="name" value={currentProject?.name || ''} onChange={handleProjectChange} className="col-span-3" />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="details" className="text-right">Details</Label>
-                <Input id="details" name="details" value={currentProject?.details || ''} onChange={handleProjectChange} className="col-span-3" />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="leadBy" className="text-right">Lead By</Label>
-                <Input id="leadBy" name="leadBy" value={currentProject?.leadBy || ''} onChange={handleProjectChange} className="col-span-3" />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="startDate" className="text-right">Start Date</Label>
-                <Input id="startDate" name="startDate" type="date" value={currentProject?.startDate || ''} onChange={handleProjectChange} className="col-span-3" />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="endDate" className="text-right">End Date</Label>
-                <Input id="endDate" name="endDate" type="date" value={currentProject?.endDate || ''} onChange={handleProjectChange} className="col-span-3" />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="budget" className="text-right">Budget</Label>
-                <Input id="budget" name="budget" type="number" value={currentProject?.budget || ''} onChange={handleProjectChange} className="col-span-3" />
-              </div>
-              <div className="grid grid-cols-4 items-center gap-4">
-                <Label htmlFor="status" className="text-right">Status</Label>
-                <Select name="status" value={currentProject?.status || ''} onValueChange={(value) => handleProjectChange({ target: { name: 'status', value } })}>
-                  <SelectTrigger className="col-span-3">
-                    <SelectValue placeholder="Select status" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="Planning">Planning</SelectItem>
-                    <SelectItem value="In Progress">In Progress</SelectItem>
-                    <SelectItem value="Completed">Completed</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+    <div className="min-h-screen bg-teal-50 p-8 flex">
+      <div className="flex-grow mr-4">
+        <h1 className="text-3xl font-bold mb-8 text-teal-800">Project Management</h1>
+        <div className="mb-6 flex justify-between items-center">
+          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+            <DialogTrigger asChild>
+              <Button onClick={() => setCurrentProject({})}>Add New Project</Button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-[425px]">
+              <DialogHeader>
+                <DialogTitle>{currentProject?.id ? 'Edit Project' : 'Add New Project'}</DialogTitle>
+              </DialogHeader>
+              <ProjectDetails
+                currentProject={currentProject}
+                handleProjectChange={handleProjectChange}
+                saveProject={saveProject}
+              />
+            </DialogContent>
+          </Dialog>
+          <select
+            className="border rounded p-2"
+            onChange={(e) => setCurrentProject(projects.find(p => p.id === e.target.value))}
+            value={currentProject?.id || ''}
+          >
+            <option value="">Select a project</option>
+            {projects.map(project => (
+              <option key={project.id} value={project.id}>{project.name}</option>
+            ))}
+          </select>
+        </div>
+        {currentProject && (
+          <>
+            <div className="mb-6 grid grid-cols-2 gap-4">
+              <Card className="p-4 bg-teal-100">
+                <h2 className="font-bold mb-2">Project Details</h2>
+                <ProjectDetails currentProject={currentProject} />
+              </Card>
+              <Card className="p-4 bg-teal-100">
+                <h2 className="font-bold mb-2">Add New Task</h2>
+                <div className="flex">
+                  <Input
+                    type="text"
+                    placeholder="New task"
+                    value={newTask}
+                    onChange={(e) => setNewTask(e.target.value)}
+                    className="mr-2 flex-grow"
+                  />
+                  <Button onClick={addTask}>Add Task</Button>
+                </div>
+              </Card>
             </div>
-            <Button onClick={saveProject}>Save Project</Button>
-          </DialogContent>
-        </Dialog>
-        <select
-          className="border rounded p-2"
-          onChange={(e) => setCurrentProject(projects.find(p => p.id === e.target.value))}
-          value={currentProject?.id || ''}
-        >
-          <option value="">Select a project</option>
-          {projects.map(project => (
-            <option key={project.id} value={project.id}>{project.name}</option>
-          ))}
-        </select>
+            <DragDropContext onDragEnd={onDragEnd}>
+              <div className="flex space-x-4">
+                <TaskList tasks={currentProject.tasks} />
+              </div>
+            </DragDropContext>
+          </>
+        )}
       </div>
-      {currentProject && (
-        <>
-          <div className="mb-6 grid grid-cols-2 gap-4">
-            <Card className="p-4 bg-teal-100">
-              <h2 className="font-bold mb-2">Project Details</h2>
-              <p><strong>Name:</strong> {currentProject.name}</p>
-              <p><strong>Details:</strong> {currentProject.details}</p>
-              <p><strong>Lead By:</strong> {currentProject.leadBy}</p>
-              <p><strong>Start Date:</strong> {currentProject.startDate}</p>
-              <p><strong>End Date:</strong> {currentProject.endDate}</p>
-              <p><strong>Budget:</strong> ${currentProject.budget}</p>
-              <p><strong>Status:</strong> {currentProject.status}</p>
-            </Card>
-            <Card className="p-4 bg-teal-100">
-              <h2 className="font-bold mb-2">Add New Task</h2>
-              <div className="flex">
-                <Input
-                  type="text"
-                  placeholder="New task"
-                  value={newTask}
-                  onChange={(e) => setNewTask(e.target.value)}
-                  className="mr-2 flex-grow"
-                />
-                <Button onClick={addTask}>Add Task</Button>
-              </div>
-            </Card>
-          </div>
-          <DragDropContext onDragEnd={onDragEnd}>
-            <div className="flex space-x-4">
-              {Object.entries(currentProject.tasks || {}).map(([columnId, tasks]) => (
-                <Card key={columnId} className="w-1/3 bg-teal-100">
-                  <CardHeader>
-                    <CardTitle className="text-teal-800">{columnId.charAt(0).toUpperCase() + columnId.slice(1)}</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <Droppable droppableId={columnId}>
-                      {(provided) => (
-                        <div {...provided.droppableProps} ref={provided.innerRef} className="min-h-[200px]">
-                          {tasks.map((task, index) => (
-                            <Draggable key={task.id} draggableId={task.id} index={index}>
-                              {(provided) => (
-                                <div
-                                  ref={provided.innerRef}
-                                  {...provided.draggableProps}
-                                  {...provided.dragHandleProps}
-                                  className="bg-white p-4 mb-2 rounded shadow"
-                                >
-                                  {task.content}
-                                </div>
-                              )}
-                            </Draggable>
-                          ))}
-                          {provided.placeholder}
-                        </div>
-                      )}
-                    </Droppable>
-                  </CardContent>
-                </Card>
-              ))}
-            </div>
-          </DragDropContext>
-        </>
-      )}
+      <div className="w-1/3">
+        <SolutionGenerator />
+      </div>
     </div>
   );
 };
