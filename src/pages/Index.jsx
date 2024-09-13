@@ -5,6 +5,8 @@ import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useNavigate } from 'react-router-dom';
 import { MessageSquare, Send } from 'lucide-react';
+import FlowerOfLife from '@/components/FlowerOfLife';
+import WaveAnimation from '@/components/WaveAnimation';
 
 const Index = () => {
   const [messages, setMessages] = useState([]);
@@ -13,7 +15,6 @@ const Index = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    // Initial greeting message
     setMessages([
       {
         text: "Hello! I'm here to help you with your social enterprise goals. Can you tell me about your current productivity challenges?",
@@ -36,7 +37,6 @@ const Index = () => {
     setInput('');
 
     // TODO: Integrate with OpenAI API
-    // For now, we'll use a mock response
     setTimeout(() => {
       setMessages([...newMessages, {
         text: "Thank you for sharing. How do you currently organize your projects and tasks?",
@@ -52,12 +52,13 @@ const Index = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-gray-100">
-      <header className="bg-white shadow-sm p-4">
+    <div className="flex flex-col h-screen gradient-bg relative">
+      <FlowerOfLife />
+      <header className="bg-white bg-opacity-80 shadow-sm p-4 z-10">
         <h1 className="text-2xl font-bold text-gray-800">Movement Creator</h1>
       </header>
-      <main className="flex-grow p-4 flex flex-col">
-        <Card className="flex-grow flex flex-col">
+      <main className="flex-grow p-4 flex flex-col relative z-10">
+        <Card className="flex-grow flex flex-col bg-white bg-opacity-80 backdrop-blur-sm">
           <ScrollArea className="flex-grow p-4" ref={chatRef}>
             {messages.map((message, index) => (
               <div
@@ -67,10 +68,10 @@ const Index = () => {
                 }`}
               >
                 <div
-                  className={`inline-block p-2 rounded-lg ${
+                  className={`chat-bubble ${
                     message.sender === 'user'
-                      ? 'bg-blue-500 text-white'
-                      : 'bg-gray-200 text-gray-800'
+                      ? 'chat-bubble-user'
+                      : 'chat-bubble-ai'
                   }`}
                 >
                   {message.text}
@@ -94,12 +95,13 @@ const Index = () => {
           </div>
         </Card>
       </main>
-      <footer className="bg-white shadow-sm p-4 mt-auto">
+      <footer className="bg-white bg-opacity-80 shadow-sm p-4 mt-auto relative z-10">
         <Button onClick={() => navigate('/auth')} variant="outline">
           <MessageSquare className="h-4 w-4 mr-2" />
           Sign Up / Login
         </Button>
       </footer>
+      <WaveAnimation />
     </div>
   );
 };
