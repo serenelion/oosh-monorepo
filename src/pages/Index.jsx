@@ -5,12 +5,14 @@ import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useNavigate } from 'react-router-dom';
 import { MessageSquare, Send } from 'lucide-react';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import FlowerOfLife from '@/components/FlowerOfLife';
 import WaveAnimation from '@/components/WaveAnimation';
 
 const Index = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
   const chatRef = useRef(null);
   const navigate = useNavigate();
 
@@ -35,14 +37,16 @@ const Index = () => {
     const newMessages = [...messages, { text: input, sender: 'user' }];
     setMessages(newMessages);
     setInput('');
+    setIsTyping(true);
 
     // TODO: Integrate with OpenAI API
     setTimeout(() => {
+      setIsTyping(false);
       setMessages([...newMessages, {
         text: "That's an inspiring goal! Let's break it down. What's the first step you envision towards achieving this?",
         sender: 'ai'
       }]);
-    }, 1000);
+    }, 2000);
   };
 
   const handleKeyPress = (e) => {
@@ -55,7 +59,7 @@ const Index = () => {
     <div className="flex flex-col h-screen gradient-bg relative">
       <FlowerOfLife />
       <header className="bg-white bg-opacity-80 shadow-sm p-4 z-10">
-        <h1 className="text-2xl font-bold text-gray-800">Empowering Change</h1>
+        <h1 className="text-2xl font-bold text-gray-800">Empowering Change Through Conversation</h1>
       </header>
       <main className="flex-grow p-4 flex flex-col relative z-10">
         <Card className="flex-grow flex flex-col bg-white bg-opacity-80 backdrop-blur-sm">
@@ -78,27 +82,41 @@ const Index = () => {
                 </div>
               </div>
             ))}
+            {isTyping && (
+              <div className="chat-bubble chat-bubble-ai">
+                <span className="typing-indicator">Movement Creator is typing<span>.</span><span>.</span><span>.</span></span>
+              </div>
+            )}
           </ScrollArea>
           <div className="p-4 flex">
             <Input
               type="text"
-              placeholder="Share your thoughts..."
+              placeholder="Share your aspirations and ideas..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={handleKeyPress}
               className="flex-grow mr-2"
             />
-            <Button onClick={handleSend}>
-              <Send className="h-4 w-4 mr-2" />
-              Send
-            </Button>
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button onClick={handleSend}>
+                    <Send className="h-4 w-4 mr-2" />
+                    Send
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>Share your thoughts</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
           </div>
         </Card>
       </main>
       <footer className="bg-white bg-opacity-80 shadow-sm p-4 mt-auto relative z-10">
         <Button onClick={() => navigate('/auth')} variant="outline">
           <MessageSquare className="h-4 w-4 mr-2" />
-          Join the Movement
+          Join the Movement & Create Change
         </Button>
       </footer>
       <WaveAnimation />
