@@ -117,3 +117,12 @@
   left: -0.5rem;
   border-right-color: hsl(var(--muted));
 }
+
+@keyframes flower-dance {
+  0%, 100% { transform: translate(0, 0); }
+  50% { transform: translate(2px, 2px); }
+}
+
+.animate-flower-dance {
+  animation: flower-dance 5s ease-in-out infinite;
+}
