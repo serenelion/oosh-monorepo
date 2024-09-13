@@ -186,7 +186,7 @@ const Clarity = () => {
           </div>
           <DragDropContext onDragEnd={onDragEnd}>
             <div className="flex space-x-4">
-              {Object.entries(currentProject.tasks).map(([columnId, tasks]) => (
+              {Object.entries(currentProject.tasks || {}).map(([columnId, tasks]) => (
                 <Card key={columnId} className="w-1/3 bg-teal-100">
                   <CardHeader>
                     <CardTitle className="text-teal-800">{columnId.charAt(0).toUpperCase() + columnId.slice(1)}</CardTitle>
