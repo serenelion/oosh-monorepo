@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Label } from "@/components/ui/label";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useLocation } from 'react-router-dom';
 
 const initialProjects = [
   {
@@ -15,6 +17,7 @@ const initialProjects = [
     startDate: '2023-06-01',
     endDate: '2024-05-31',
     budget: 50000,
+    status: 'In Progress',
     tasks: {
       todo: [{ id: 'task-1', content: 'Research urban permaculture methods' }],
       inProgress: [{ id: 'task-2', content: 'Design pilot garden layout' }],
@@ -28,6 +31,18 @@ const Clarity = () => {
   const [currentProject, setCurrentProject] = useState(null);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const [newTask, setNewTask] = useState('');
+  const location = useLocation();
+
+  useEffect(() => {
+    const params = new URLSearchParams(location.search);
+    const projectId = params.get('project');
+    if (projectId) {
+      const project = projects.find(p => p.id === projectId);
+      if (project) {
+        setCurrentProject(project);
+      }
+    }
+  }, [location, projects]);
 
   const onDragEnd = (result) => {
     const { source, destination } = result;
@@ -114,6 +129,19 @@ const Clarity = () => {
                 <Label htmlFor="budget" className="text-right">Budget</Label>
                 <Input id="budget" name="budget" type="number" value={currentProject?.budget || ''} onChange={handleProjectChange} className="col-span-3" />
               </div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label htmlFor="status" className="text-right">Status</Label>
+                <Select name="status" value={currentProject?.status || ''} onValueChange={(value) => handleProjectChange({ target: { name: 'status', value } })}>
+                  <SelectTrigger className="col-span-3">
+                    <SelectValue placeholder="Select status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="Planning">Planning</SelectItem>
+                    <SelectItem value="In Progress">In Progress</SelectItem>
+                    <SelectItem value="Completed">Completed</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
             <Button onClick={saveProject}>Save Project</Button>
           </DialogContent>
@@ -140,6 +168,7 @@ const Clarity = () => {
               <p><strong>Start Date:</strong> {currentProject.startDate}</p>
               <p><strong>End Date:</strong> {currentProject.endDate}</p>
               <p><strong>Budget:</strong> ${currentProject.budget}</p>
+              <p><strong>Status:</strong> {currentProject.status}</p>
             </Card>
             <Card className="p-4 bg-teal-100">
               <h2 className="font-bold mb-2">Add New Task</h2>
