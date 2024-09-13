@@ -17,7 +17,7 @@ const Index = () => {
   useEffect(() => {
     setMessages([
       {
-        text: "Hello! I'm here to help you with your social enterprise goals. Can you tell me about your current productivity challenges?",
+        text: "Hi! I'm Movement Creator. I'm here to support you in creating the most impactful solutions for humanity. What are your most aspirational goals?",
         sender: 'ai'
       }
     ]);
@@ -39,7 +39,7 @@ const Index = () => {
     // TODO: Integrate with OpenAI API
     setTimeout(() => {
       setMessages([...newMessages, {
-        text: "Thank you for sharing. How do you currently organize your projects and tasks?",
+        text: "That's an inspiring goal! Let's break it down. What's the first step you envision towards achieving this?",
         sender: 'ai'
       }]);
     }, 1000);
@@ -55,7 +55,7 @@ const Index = () => {
     <div className="flex flex-col h-screen gradient-bg relative">
       <FlowerOfLife />
       <header className="bg-white bg-opacity-80 shadow-sm p-4 z-10">
-        <h1 className="text-2xl font-bold text-gray-800">Movement Creator</h1>
+        <h1 className="text-2xl font-bold text-gray-800">Empowering Change</h1>
       </header>
       <main className="flex-grow p-4 flex flex-col relative z-10">
         <Card className="flex-grow flex flex-col bg-white bg-opacity-80 backdrop-blur-sm">
@@ -82,7 +82,7 @@ const Index = () => {
           <div className="p-4 flex">
             <Input
               type="text"
-              placeholder="Type your message..."
+              placeholder="Share your thoughts..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={handleKeyPress}
@@ -98,7 +98,7 @@ const Index = () => {
       <footer className="bg-white bg-opacity-80 shadow-sm p-4 mt-auto relative z-10">
         <Button onClick={() => navigate('/auth')} variant="outline">
           <MessageSquare className="h-4 w-4 mr-2" />
-          Sign Up / Login
+          Join the Movement
         </Button>
       </footer>
       <WaveAnimation />
