@@ -58,9 +58,6 @@ const Index = () => {
   return (
     <div className="flex flex-col h-screen gradient-bg relative">
       <FlowerOfLife />
-      <header className="bg-white bg-opacity-80 shadow-sm p-4 z-10">
-        <h1 className="text-2xl font-bold text-gray-800">Empowering Change Through Conversation</h1>
-      </header>
       <main className="flex-grow p-4 flex flex-col relative z-10">
         <Card className="flex-grow flex flex-col bg-white bg-opacity-80 backdrop-blur-sm">
           <ScrollArea className="flex-grow p-4" ref={chatRef}>
@@ -116,7 +113,7 @@ const Index = () => {
       <footer className="bg-white bg-opacity-80 shadow-sm p-4 mt-auto relative z-10">
         <Button onClick={() => navigate('/auth')} variant="outline">
           <MessageSquare className="h-4 w-4 mr-2" />
-          Join the Movement & Create Change
+          Create a Social Enterprise Account
         </Button>
       </footer>
       <WaveAnimation />
