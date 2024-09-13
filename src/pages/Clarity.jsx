@@ -1,13 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { DragDropContext } from 'react-beautiful-dnd';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
-import { Label } from "@/components/ui/label";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { useLocation } from 'react-router-dom';
-import SolutionGenerator from '../components/SolutionGenerator';
 import ProjectDetails from '../components/ProjectDetails';
 import TaskList from '../components/TaskList';
 
@@ -96,68 +93,63 @@ const Clarity = () => {
   };
 
   return (
-    <div className="min-h-screen bg-teal-50 p-8 flex">
-      <div className="flex-grow mr-4">
-        <h1 className="text-3xl font-bold mb-8 text-teal-800">Project Management</h1>
-        <div className="mb-6 flex justify-between items-center">
-          <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-            <DialogTrigger asChild>
-              <Button onClick={() => setCurrentProject({})}>Add New Project</Button>
-            </DialogTrigger>
-            <DialogContent className="sm:max-w-[425px]">
-              <DialogHeader>
-                <DialogTitle>{currentProject?.id ? 'Edit Project' : 'Add New Project'}</DialogTitle>
-              </DialogHeader>
-              <ProjectDetails
-                currentProject={currentProject}
-                handleProjectChange={handleProjectChange}
-                saveProject={saveProject}
-              />
-            </DialogContent>
-          </Dialog>
-          <select
-            className="border rounded p-2"
-            onChange={(e) => setCurrentProject(projects.find(p => p.id === e.target.value))}
-            value={currentProject?.id || ''}
-          >
-            <option value="">Select a project</option>
-            {projects.map(project => (
-              <option key={project.id} value={project.id}>{project.name}</option>
-            ))}
-          </select>
-        </div>
-        {currentProject && (
-          <>
-            <div className="mb-6 grid grid-cols-2 gap-4">
-              <Card className="p-4 bg-teal-100">
-                <h2 className="font-bold mb-2">Project Details</h2>
-                <ProjectDetails currentProject={currentProject} />
-              </Card>
-              <Card className="p-4 bg-teal-100">
-                <h2 className="font-bold mb-2">Add New Task</h2>
-                <div className="flex">
-                  <Input
-                    type="text"
-                    placeholder="New task"
-                    value={newTask}
-                    onChange={(e) => setNewTask(e.target.value)}
-                    className="mr-2 flex-grow"
-                  />
-                  <Button onClick={addTask}>Add Task</Button>
-                </div>
-              </Card>
-            </div>
-            <DragDropContext onDragEnd={onDragEnd}>
-              <div className="flex space-x-4">
-                <TaskList tasks={currentProject.tasks} />
+    <div className="min-h-screen bg-teal-50 p-8">
+      <h1 className="text-3xl font-bold mb-8 text-teal-800">Project Management</h1>
+      <div className="mb-6 flex justify-between items-center">
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <DialogTrigger asChild>
+            <Button onClick={() => setCurrentProject({})}>Add New Project</Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>{currentProject?.id ? 'Edit Project' : 'Add New Project'}</DialogTitle>
+            </DialogHeader>
+            <ProjectDetails
+              currentProject={currentProject}
+              handleProjectChange={handleProjectChange}
+              saveProject={saveProject}
+            />
+          </DialogContent>
+        </Dialog>
+        <select
+          className="border rounded p-2"
+          onChange={(e) => setCurrentProject(projects.find(p => p.id === e.target.value))}
+          value={currentProject?.id || ''}
+        >
+          <option value="">Select a project</option>
+          {projects.map(project => (
+            <option key={project.id} value={project.id}>{project.name}</option>
+          ))}
+        </select>
+      </div>
+      {currentProject && (
+        <>
+          <div className="mb-6 grid grid-cols-2 gap-4">
+            <Card className="p-4 bg-teal-100">
+              <h2 className="font-bold mb-2">Project Details</h2>
+              <ProjectDetails currentProject={currentProject} />
+            </Card>
+            <Card className="p-4 bg-teal-100">
+              <h2 className="font-bold mb-2">Add New Task</h2>
+              <div className="flex">
+                <Input
+                  type="text"
+                  placeholder="New task"
+                  value={newTask}
+                  onChange={(e) => setNewTask(e.target.value)}
+                  className="mr-2 flex-grow"
+                />
+                <Button onClick={addTask}>Add Task</Button>
               </div>
-            </DragDropContext>
-          </>
-        )}
-      </div>
-      <div className="w-1/3">
-        <SolutionGenerator />
-      </div>
+            </Card>
+          </div>
+          <DragDropContext onDragEnd={onDragEnd}>
+            <div className="flex space-x-4">
+              <TaskList tasks={currentProject.tasks} />
+            </div>
+          </DragDropContext>
+        </>
+      )}
     </div>
   );
 };
