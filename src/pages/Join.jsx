@@ -1,11 +1,14 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { useNavigate } from 'react-router-dom';
-import { MessageSquare, Users, Leaf, ArrowRight } from 'lucide-react';
+import { MessageSquare, Users, Leaf, ArrowRight, DollarSign } from 'lucide-react';
+import DonationForm from '../components/DonationForm';
 
 const Join = () => {
   const navigate = useNavigate();
+  const [showDonationForm, setShowDonationForm] = useState(false);
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-50 to-teal-100 p-8">
@@ -53,10 +56,20 @@ const Join = () => {
             <p className="mb-6 text-teal-700">
               By joining our network, you're not just gaining access to powerful tools and connections - you're becoming part of a movement dedicated to creating positive change through sustainable practices.
             </p>
-            <Button onClick={() => navigate('/auth')} className="bg-teal-500 hover:bg-teal-600 text-white w-full">
-              Create Your Oosh Account
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
+            {!showDonationForm ? (
+              <>
+                <Button onClick={() => setShowDonationForm(true)} className="bg-teal-500 hover:bg-teal-600 text-white w-full mb-4">
+                  <DollarSign className="mr-2 h-4 w-4" />
+                  Gift to the Project
+                </Button>
+                <Button onClick={() => navigate('/auth')} className="bg-teal-500 hover:bg-teal-600 text-white w-full">
+                  Create Your Oosh Account
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </>
+            ) : (
+              <DonationForm onComplete={() => navigate('/auth')} />
+            )}
           </CardContent>
         </Card>
       </div>
