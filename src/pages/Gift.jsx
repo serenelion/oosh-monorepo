@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Gift, ArrowRight, Leaf } from 'lucide-react';
+import { ArrowRight, Leaf } from 'lucide-react';
 
 const GiftPage = () => {
   const navigate = useNavigate();

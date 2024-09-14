@@ -16,7 +16,7 @@ const Auth = () => {
     if (action === 'signup') {
       // TODO: Implement actual signup logic
       console.log('User signed up with:', { email, password });
-      navigate('/onboarding');
+      navigate('/gift');
     } else {
       // TODO: Implement actual login logic
       console.log('User logged in with:', { email, password });
