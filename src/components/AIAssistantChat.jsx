@@ -41,43 +41,37 @@ const AIAssistantChat = ({ assistant }) => {
   };
 
   return (
-    <div className="flex flex-col h-full">
-      <ScrollArea className="flex-grow p-4" ref={chatRef}>
+    <div className="chat-container h-full">
+      <ScrollArea className="chat-messages" ref={chatRef}>
         {messages.map((message, index) => (
           <div
             key={index}
-            className={`mb-4 ${
-              message.sender === 'user' ? 'text-right' : 'text-left'
+            className={`chat-bubble ${
+              message.sender === 'user' ? 'chat-bubble-user' : 'chat-bubble-ai'
             }`}
           >
-            <div
-              className={`inline-block p-3 rounded-lg ${
-                message.sender === 'user'
-                  ? 'bg-teal-500 text-white'
-                  : 'bg-gray-100 text-gray-800'
-              }`}
-            >
-              {message.text}
-            </div>
+            {message.text}
           </div>
         ))}
         {isTyping && (
-          <div className="text-left">
-            <div className="inline-block p-3 rounded-lg bg-gray-100 text-gray-800">
-              <span className="typing-indicator">AI is typing<span>.</span><span>.</span><span>.</span></span>
+          <div className="chat-bubble chat-bubble-ai">
+            <div className="typing-indicator">
+              <span></span>
+              <span></span>
+              <span></span>
             </div>
           </div>
         )}
       </ScrollArea>
-      <div className="p-4 border-t border-gray-200">
-        <div className="flex items-center">
+      <div className="chat-input-container">
+        <div className="chat-input">
           <Input
             type="text"
             placeholder="Type your message..."
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && handleSend()}
-            className="flex-grow mr-2"
+            className="flex-grow mr-2 border-teal-300 focus:ring-teal-500"
           />
           <Button onClick={handleSend} className="bg-teal-500 hover:bg-teal-600 text-white">
             <Send className="h-4 w-4" />

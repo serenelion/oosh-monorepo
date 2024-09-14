@@ -37,9 +37,11 @@ const Dashboard = () => {
             Oosh Dashboard
           </h1>
         </header>
-        <div className="flex-1 overflow-hidden bg-white bg-opacity-80 backdrop-blur-sm">
+        <div className="flex-1 overflow-hidden bg-white bg-opacity-80 backdrop-blur-sm p-4">
           {activeChat ? (
-            <AIAssistantChat assistant={activeChat} />
+            <div className="chat-container h-full">
+              <AIAssistantChat assistant={activeChat} />
+            </div>
           ) : (
             <div className="h-full flex items-center justify-center text-teal-600">
               <Leaf className="h-16 w-16 mr-4" />

@@ -58,8 +58,16 @@
   }
 }
 
+.chat-container {
+  @apply flex flex-col h-full bg-white bg-opacity-90 backdrop-blur-sm rounded-lg shadow-lg overflow-hidden;
+}
+
+.chat-messages {
+  @apply flex-grow p-4 overflow-y-auto space-y-4;
+}
+
 .chat-bubble {
-  @apply relative rounded-lg p-4 max-w-[80%] mb-4;
+  @apply relative rounded-lg p-4 max-w-[80%] shadow-sm;
 }
 
 .chat-bubble::after {
@@ -67,40 +75,43 @@
 }
 
 .chat-bubble-user {
-  @apply bg-primary text-primary-foreground ml-auto;
+  @apply bg-teal-500 text-white ml-auto;
 }
 
 .chat-bubble-user::after {
-  @apply right-[-0.5rem] border-l-primary;
+  @apply right-[-0.5rem] border-l-teal-500;
 }
 
 .chat-bubble-ai {
-  @apply bg-muted text-muted-foreground mr-auto;
+  @apply bg-gray-100 text-gray-800 mr-auto;
 }
 
 .chat-bubble-ai::after {
-  @apply left-[-0.5rem] border-r-muted;
+  @apply left-[-0.5rem] border-r-gray-100;
+}
+
+.chat-input-container {
+  @apply p-4 bg-white border-t border-gray-200;
+}
+
+.chat-input {
+  @apply flex items-center space-x-2;
 }
 
 .typing-indicator {
-  @apply inline-block;
+  @apply inline-flex items-center space-x-1 text-gray-500;
 }
 
 .typing-indicator span {
-  @apply animate-[blink_1.4s_infinite] text-lg leading-none;
+  @apply w-2 h-2 bg-gray-500 rounded-full animate-bounce;
 }
 
 .typing-indicator span:nth-child(2) {
-  animation-delay: .2s;
+  animation-delay: 0.2s;
 }
 
 .typing-indicator span:nth-child(3) {
-  animation-delay: .4s;
-}
-
-@keyframes blink {
-  0%, 100% { opacity: .2; }
-  20% { opacity: 1; }
+  animation-delay: 0.4s;
 }
 
 .animated-background {
@@ -118,15 +129,22 @@
 
 .wave2 {
   @apply bg-gradient-radial from-green-500 to-blue-500;
-  animation: wave 30s infinite linear 5s;
+  animation: wave 30s infinite linear;
+  animation-delay: 5s;
 }
 
 .wave3 {
   @apply bg-gradient-radial from-blue-400 to-green-400;
-  animation: wave 40s infinite linear 10s;
+  animation: wave 40s infinite linear;
+  animation-delay: 10s;
 }
 
 @keyframes wave {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
 }

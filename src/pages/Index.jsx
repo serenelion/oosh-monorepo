@@ -66,54 +66,51 @@ const Index = () => {
         </Button>
       </header>
       <main className="flex-grow p-4 flex flex-col relative z-10">
-        <Card className="flex-grow flex flex-col bg-white bg-opacity-80 backdrop-blur-sm border-teal-200 shadow-lg">
-          <ScrollArea className="flex-grow p-4" ref={chatRef}>
+        <Card className="chat-container">
+          <ScrollArea className="chat-messages" ref={chatRef}>
             {messages.map((message, index) => (
               <div
                 key={index}
-                className={`mb-4 ${
-                  message.sender === 'user' ? 'text-right' : 'text-left'
+                className={`chat-bubble ${
+                  message.sender === 'user' ? 'chat-bubble-user' : 'chat-bubble-ai'
                 }`}
               >
-                <div
-                  className={`chat-bubble ${
-                    message.sender === 'user'
-                      ? 'chat-bubble-user bg-teal-500 text-white'
-                      : 'chat-bubble-ai bg-teal-100 text-teal-900'
-                  }`}
-                >
-                  {message.text}
-                </div>
+                {message.text}
               </div>
             ))}
             {isTyping && (
-              <div className="chat-bubble chat-bubble-ai bg-teal-100 text-teal-900">
-                <span className="typing-indicator">Oosh AI is thinking<span>.</span><span>.</span><span>.</span></span>
+              <div className="chat-bubble chat-bubble-ai">
+                <div className="typing-indicator">
+                  <span></span>
+                  <span></span>
+                  <span></span>
+                </div>
               </div>
             )}
           </ScrollArea>
-          <div className="p-4 flex">
-            <Input
-              type="text"
-              placeholder="Share your thoughts on permaculture..."
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyPress={handleKeyPress}
-              className="flex-grow mr-2 border-teal-300 focus:ring-teal-500"
-            />
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button onClick={handleSend} className="bg-teal-500 hover:bg-teal-600 text-white">
-                    <Send className="h-4 w-4 mr-2" />
-                    Send
-                  </Button>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>Share your thoughts</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
+          <div className="chat-input-container">
+            <div className="chat-input">
+              <Input
+                type="text"
+                placeholder="Share your thoughts on permaculture..."
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyPress={handleKeyPress}
+                className="flex-grow border-teal-300 focus:ring-teal-500"
+              />
+              <TooltipProvider>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button onClick={handleSend} className="bg-teal-500 hover:bg-teal-600 text-white">
+                      <Send className="h-4 w-4" />
+                    </Button>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Send message</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+            </div>
           </div>
         </Card>
       </main>
