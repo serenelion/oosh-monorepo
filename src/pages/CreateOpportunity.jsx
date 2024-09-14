@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -6,12 +6,11 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Leaf, Briefcase, Users, PiggyBank, Calendar, Video, Map } from 'lucide-react';
 import AnimatedBackground from '@/components/AnimatedBackground';
-import { useEditor, EditorContent } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
-import Underline from '@tiptap/extension-underline';
-import Link from '@tiptap/extension-link';
-import Image from '@tiptap/extension-image';
-import EditorToolbar from '@/components/EditorToolbar';
+import EditorJS from '@editorjs/editorjs';
+import Header from '@editorjs/header';
+import List from '@editorjs/list';
+import Embed from '@editorjs/embed';
+import Image from '@editorjs/image';
 
 const OPPORTUNITY_CATEGORIES = [
   { value: 'volunteer', label: 'Volunteer', icon: <Users className="h-6 w-6" /> },
@@ -26,27 +25,48 @@ const CreateOpportunity = () => {
   const navigate = useNavigate();
   const [title, setTitle] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
+  const editorRef = useRef(null);
+  const editorInstanceRef = useRef(null);
 
-  const editor = useEditor({
-    extensions: [
-      StarterKit,
-      Underline,
-      Link,
-      Image,
-    ],
-    content: '',
-  });
+  useEffect(() => {
+    if (!editorInstanceRef.current) {
+      initEditor();
+    }
+    return () => {
+      if (editorInstanceRef.current) {
+        editorInstanceRef.current.destroy();
+        editorInstanceRef.current = null;
+      }
+    };
+  }, []);
+
+  const initEditor = () => {
+    const editor = new EditorJS({
+      holder: editorRef.current,
+      tools: {
+        header: Header,
+        list: List,
+        embed: Embed,
+        image: Image,
+      },
+      placeholder: 'Enter opportunity details here...',
+    });
+    editorInstanceRef.current = editor;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const opportunityData = {
-      title,
-      category: selectedCategory,
-      details: editor.getHTML(),
-    };
-    console.log('Form submitted:', opportunityData);
-    // TODO: Send data to backend
-    navigate('/opportunities');
+    if (editorInstanceRef.current) {
+      const editorData = await editorInstanceRef.current.save();
+      const opportunityData = {
+        title,
+        category: selectedCategory,
+        details: editorData,
+      };
+      console.log('Form submitted:', opportunityData);
+      // TODO: Send data to backend
+      navigate('/opportunities');
+    }
   };
 
   return (
@@ -96,10 +116,7 @@ const CreateOpportunity = () => {
                 </div>
                 <div>
                   <Label>Details</Label>
-                  <div className="mt-1 border border-gray-300 rounded-md overflow-hidden">
-                    <EditorToolbar editor={editor} />
-                    <EditorContent editor={editor} className="min-h-[200px] p-4" />
-                  </div>
+                  <div ref={editorRef} className="mt-1 border border-gray-300 rounded-md min-h-[200px]" />
                 </div>
               </div>
               <div className="pt-6">
