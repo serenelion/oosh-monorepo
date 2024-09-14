@@ -95,9 +95,11 @@ const CreateOpportunity = () => {
                   </div>
                 </div>
               </div>
-              <Button type="submit" className="w-full bg-teal-500 hover:bg-teal-600 text-white">
-                Create Opportunity
-              </Button>
+              <div className="mt-8 pt-6 border-t border-gray-200">
+                <Button type="submit" className="w-full bg-teal-500 hover:bg-teal-600 text-white">
+                  Create Opportunity
+                </Button>
+              </div>
             </form>
           </CardContent>
         </Card>
