@@ -8,7 +8,7 @@ const EditorToolbar = ({ editor }) => {
   }
 
   return (
-    <div className="bg-white border border-gray-200 rounded-md shadow-sm p-2 flex space-x-2">
+    <div className="bg-white border border-gray-200 rounded-md shadow-sm p-2 flex space-x-2 mb-2">
       <Button
         size="sm"
         variant="ghost"
