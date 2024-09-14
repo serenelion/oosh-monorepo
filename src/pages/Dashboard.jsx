@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { MessageSquare, Users, Leaf, Settings, Cube } from 'lucide-react';
+import { MessageSquare, Users, Leaf, Settings, PlusSquare } from 'lucide-react';
 import AIAssistantChat from '../components/AIAssistantChat';
 import { useNavigate } from 'react-router-dom';
 
@@ -70,7 +70,7 @@ const Dashboard = () => {
               ))}
             </ScrollArea>
             <Button onClick={() => navigate('/new-gpt')} className="w-full bg-teal-500 hover:bg-teal-600 text-white mt-4">
-              <Cube className="mr-2 h-4 w-4" /> New GPT
+              <PlusSquare className="mr-2 h-4 w-4" /> New GPT
             </Button>
           </CardContent>
         </Card>
