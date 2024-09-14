@@ -31,7 +31,7 @@ const CreateOpportunity = () => {
       initEditor();
     }
     return () => {
-      if (editorInstanceRef.current) {
+      if (editorInstanceRef.current && typeof editorInstanceRef.current.destroy === 'function') {
         editorInstanceRef.current.destroy();
         editorInstanceRef.current = null;
       }
@@ -65,22 +65,34 @@ const CreateOpportunity = () => {
         ]
       },
       placeholder: 'Enter opportunity details here...',
+      onChange: () => {
+        console.log('Editor content changed');
+      }
     });
-    editorInstanceRef.current = editor;
+
+    editor.isReady.then(() => {
+      editorInstanceRef.current = editor;
+    }).catch((error) => {
+      console.error('Editor.js initialization failed:', error);
+    });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (editorInstanceRef.current) {
-      const editorData = await editorInstanceRef.current.save();
-      const opportunityData = {
-        title,
-        category: selectedCategory,
-        details: editorData,
-      };
-      console.log('Form submitted:', opportunityData);
-      // TODO: Send data to backend
-      navigate('/opportunities');
+      try {
+        const editorData = await editorInstanceRef.current.save();
+        const opportunityData = {
+          title,
+          category: selectedCategory,
+          details: editorData,
+        };
+        console.log('Form submitted:', opportunityData);
+        // TODO: Send data to backend
+        navigate('/opportunities');
+      } catch (error) {
+        console.error('Error saving editor data:', error);
+      }
     }
   };
 
