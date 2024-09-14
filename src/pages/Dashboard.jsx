@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { MessageSquare, Users, UserPlus, Plus } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import AIAssistantChat from '../components/AIAssistantChat';
 
 const AIAssistant = ({ name, icon, onChat }) => (
   <Card className="mb-4">
@@ -64,10 +65,11 @@ const Dashboard = () => {
     { id: 1, name: 'People Connector', icon: <Users className="h-6 w-6" /> },
     { id: 2, name: 'Farmer Friend', icon: <MessageSquare className="h-6 w-6" /> },
   ]);
+  const [activeChat, setActiveChat] = useState(null);
 
   const handleChat = (assistantId) => {
-    // TODO: Implement chat functionality with the selected assistant
-    console.log(`Chatting with assistant ${assistantId}`);
+    const assistant = assistants.find(a => a.id === assistantId);
+    setActiveChat(assistant);
   };
 
   const handleCreateAssistant = (newAssistant) => {
@@ -77,8 +79,8 @@ const Dashboard = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-50 to-teal-100 p-8">
       <h1 className="text-4xl font-bold mb-8 text-teal-800">Dashboard</h1>
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        <Card>
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <Card className="md:col-span-1">
           <CardHeader>
             <CardTitle className="flex items-center">
               <MessageSquare className="mr-2" />
@@ -86,7 +88,7 @@ const Dashboard = () => {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <ScrollArea className="h-[300px]">
+            <ScrollArea className="h-[400px]">
               {assistants.map((assistant) => (
                 <AIAssistant
                   key={assistant.id}
@@ -97,6 +99,20 @@ const Dashboard = () => {
               ))}
             </ScrollArea>
             <CreateAssistantDialog onCreateAssistant={handleCreateAssistant} />
+          </CardContent>
+        </Card>
+        <Card className="md:col-span-2">
+          <CardHeader>
+            <CardTitle>Chat with AI Assistant</CardTitle>
+          </CardHeader>
+          <CardContent>
+            {activeChat ? (
+              <AIAssistantChat assistant={activeChat} />
+            ) : (
+              <div className="text-center text-gray-500">
+                Select an AI Assistant to start chatting
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>
