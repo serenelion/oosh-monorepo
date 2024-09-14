@@ -3,10 +3,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { Plus } from 'lucide-react';
-import FlowerOfLife from './FlowerOfLife';
 
 const OPPORTUNITY_CATEGORIES = [
   'Volunteer',
@@ -24,6 +24,7 @@ const CreateOpportunityDialog = ({ onCreateOpportunity }) => {
   const [location, setLocation] = useState('');
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
+  const [currentTab, setCurrentTab] = useState('details');
 
   const handleCreate = () => {
     if (title && description && category && location && startDate && endDate) {
@@ -35,6 +36,7 @@ const CreateOpportunityDialog = ({ onCreateOpportunity }) => {
       setLocation('');
       setStartDate('');
       setEndDate('');
+      setCurrentTab('details');
     }
   };
 
@@ -45,15 +47,16 @@ const CreateOpportunityDialog = ({ onCreateOpportunity }) => {
           <Plus className="mr-2 h-4 w-4" /> Create Opportunity
         </Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[800px] bg-white overflow-hidden">
+      <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle className="text-2xl font-bold text-teal-700 flex items-center">
-            Create New Opportunity
-          </DialogTitle>
+          <DialogTitle>Create New Opportunity</DialogTitle>
         </DialogHeader>
-        <div className="relative">
-          <FlowerOfLife />
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-6">
+        <Tabs value={currentTab} onValueChange={setCurrentTab} className="w-full">
+          <TabsList className="grid w-full grid-cols-2">
+            <TabsTrigger value="details">Details</TabsTrigger>
+            <TabsTrigger value="dateLocation">Date & Location</TabsTrigger>
+          </TabsList>
+          <TabsContent value="details">
             <div className="space-y-4">
               <div>
                 <Label htmlFor="title">Title</Label>
@@ -71,7 +74,6 @@ const CreateOpportunityDialog = ({ onCreateOpportunity }) => {
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
                   className="mt-1"
-                  rows={4}
                 />
               </div>
               <div>
@@ -88,6 +90,8 @@ const CreateOpportunityDialog = ({ onCreateOpportunity }) => {
                 </Select>
               </div>
             </div>
+          </TabsContent>
+          <TabsContent value="dateLocation">
             <div className="space-y-4">
               <div>
                 <Label htmlFor="location">Location</Label>
@@ -119,13 +123,11 @@ const CreateOpportunityDialog = ({ onCreateOpportunity }) => {
                 />
               </div>
             </div>
-          </div>
-          <div className="flex justify-end mt-6 px-6 pb-6">
-            <Button onClick={handleCreate} className="bg-teal-500 hover:bg-teal-600 text-white">
-              Create Opportunity
-            </Button>
-          </div>
-        </div>
+          </TabsContent>
+        </Tabs>
+        <Button onClick={handleCreate} className="w-full mt-4 bg-teal-500 hover:bg-teal-600 text-white">
+          Create Opportunity
+        </Button>
       </DialogContent>
     </Dialog>
   );
