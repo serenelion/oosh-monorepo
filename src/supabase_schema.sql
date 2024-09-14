@@ -24,26 +24,6 @@ CREATE TABLE messages (
   created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
 );
 
--- Create Projects table
-CREATE TABLE projects (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  name TEXT NOT NULL,
-  description TEXT,
-  status TEXT,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-);
-
--- Create Tasks table
-CREATE TABLE tasks (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  project_id UUID REFERENCES projects(id),
-  title TEXT NOT NULL,
-  description TEXT,
-  status TEXT,
-  created_at TIMESTAMP WITH TIME ZONE DEFAULT CURRENT_TIMESTAMP
-);
-
 -- Create indexes for better query performance
 CREATE INDEX idx_chats_assistant_id ON chats(assistant_id);
 CREATE INDEX idx_messages_chat_id ON messages(chat_id);
-CREATE INDEX idx_tasks_project_id ON tasks(project_id);
