@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useNavigate } from 'react-router-dom';
-import { Send } from 'lucide-react';
+import { Send, Leaf } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import FlowerOfLife from '@/components/FlowerOfLife';
 import WaveAnimation from '@/components/WaveAnimation';
@@ -19,7 +19,7 @@ const Index = () => {
   useEffect(() => {
     setMessages([
       {
-        text: "Welcome to Oosh! I'm an AI, and I'm being trained to help you to connect with the collective intelligence of the permaculture community.",
+        text: "Welcome to Oosh! I'm an AI assistant trained to help you connect with the collective intelligence of the permaculture community.",
         sender: 'ai'
       }
     ]);
@@ -59,13 +59,16 @@ const Index = () => {
     <div className="flex flex-col h-screen bg-gradient-to-br from-teal-50 to-teal-100 relative">
       <FlowerOfLife />
       <header className="bg-white bg-opacity-80 shadow-sm p-4 flex justify-between items-center relative z-20">
-        <h1 className="text-2xl font-bold text-teal-700">Oosh</h1>
+        <h1 className="text-2xl font-bold text-teal-700 flex items-center">
+          <Leaf className="mr-2 h-6 w-6 text-teal-500" />
+          Oosh
+        </h1>
         <Button onClick={() => navigate('/join')} variant="outline" className="border-teal-500 text-teal-700 hover:bg-teal-50">
           Join the Network
         </Button>
       </header>
       <main className="flex-grow p-4 flex flex-col relative z-10">
-        <Card className="flex-grow flex flex-col bg-white bg-opacity-80 backdrop-blur-sm border-teal-200">
+        <Card className="flex-grow flex flex-col bg-white bg-opacity-80 backdrop-blur-sm border-teal-200 shadow-lg">
           <ScrollArea className="flex-grow p-4" ref={chatRef}>
             {messages.map((message, index) => (
               <div
@@ -87,7 +90,7 @@ const Index = () => {
             ))}
             {isTyping && (
               <div className="chat-bubble chat-bubble-ai bg-teal-100 text-teal-900">
-                <span className="typing-indicator">Oosh AI is typing<span>.</span><span>.</span><span>.</span></span>
+                <span className="typing-indicator">Oosh AI is thinking<span>.</span><span>.</span><span>.</span></span>
               </div>
             )}
           </ScrollArea>
