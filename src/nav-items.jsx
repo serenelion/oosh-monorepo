@@ -1,4 +1,4 @@
-import { HomeIcon, LogInIcon, ClipboardListIcon, Trello, Users, LayoutDashboard, Cube } from "lucide-react";
+import { HomeIcon, LogInIcon, ClipboardListIcon, Trello, Users, LayoutDashboard, PlusSquare } from "lucide-react";
 import Index from "./pages/Index.jsx";
 import Auth from "./pages/Auth.jsx";
 import Clarity from "./pages/Clarity.jsx";
@@ -47,7 +47,7 @@ export const navItems = [
   {
     title: "New GPT",
     to: "/new-gpt",
-    icon: <Cube className="h-4 w-4" />,
+    icon: <PlusSquare className="h-4 w-4" />,
     page: <NewGPT />,
   },
 ];
