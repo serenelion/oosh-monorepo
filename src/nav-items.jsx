@@ -1,4 +1,4 @@
-import { HomeIcon, LogInIcon, Users, LayoutDashboard, Gift as GiftIcon, MessageSquare, Leaf } from "lucide-react";
+import { HomeIcon, LogInIcon, Users, LayoutDashboard, Gift as GiftIcon, MessageSquare, Leaf, Farm } from "lucide-react";
 import Index from "./pages/Index.jsx";
 import Auth from "./pages/Auth.jsx";
 import Join from "./pages/Join.jsx";
@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard.jsx";
 import GiftPage from "./pages/Gift.jsx";
 import ChatBeta from "./pages/ChatBeta.jsx";
 import Oosh from "./pages/Oosh.jsx";
+import FarmProfile from "./pages/FarmProfile.jsx";
 
 export const navItems = [
   {
@@ -49,5 +50,11 @@ export const navItems = [
     to: "/oosh",
     icon: <Leaf className="h-4 w-4" />,
     page: <Oosh />,
+  },
+  {
+    title: "Farm Profile",
+    to: "/farm-profile",
+    icon: <Farm className="h-4 w-4" />,
+    page: <FarmProfile />,
   },
 ];

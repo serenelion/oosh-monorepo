@@ -4,9 +4,9 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Leaf, Search, Users, Calendar, BookOpen, Sprout } from 'lucide-react';
+import { Leaf, Search, Users, Calendar, BookOpen, Sprout, Farm } from 'lucide-react';
 import AnimatedBackground from '@/components/AnimatedBackground';
-import FarmProfile from '@/components/FarmProfile';
+import { Link } from 'react-router-dom';
 
 const Oosh = () => {
   return (
@@ -18,7 +18,21 @@ const Oosh = () => {
           Oosh: Permaculture Community Hub
         </h1>
         
-        <FarmProfile />
+        <Card className="mb-8 shadow-lg bg-white bg-opacity-90 backdrop-blur-sm border-teal-200">
+          <CardHeader>
+            <CardTitle className="text-2xl text-teal-700 flex items-center">
+              <Farm className="mr-2 h-6 w-6" />
+              Featured Farm
+            </CardTitle>
+          </CardHeader>
+          <CardContent>
+            <h3 className="font-semibold text-lg text-teal-800 mb-2">Finca Aluna</h3>
+            <p className="text-teal-700 mb-4">A beyond organic permaculture farm in Ometepe Island, Nicaragua.</p>
+            <Link to="/farm-profile">
+              <Button className="bg-teal-500 hover:bg-teal-600 text-white">View Farm Profile</Button>
+            </Link>
+          </CardContent>
+        </Card>
         
         <Card className="mt-8 shadow-lg bg-white bg-opacity-90 backdrop-blur-sm border-teal-200">
           <CardHeader>
