@@ -9,8 +9,6 @@ import AnimatedBackground from '@/components/AnimatedBackground';
 import EditorJS from '@editorjs/editorjs';
 import Header from '@editorjs/header';
 import List from '@editorjs/list';
-import Paragraph from '@editorjs/paragraph';
-import Underline from '@editorjs/underline';
 
 const OPPORTUNITY_CATEGORIES = [
   { value: 'volunteer', label: 'Volunteer', icon: <Users className="h-6 w-6" /> },
@@ -48,26 +46,25 @@ const CreateOpportunity = () => {
           class: Header,
           config: {
             levels: [1, 2, 3],
-            defaultLevel: 1
+            defaultLevel: 2
           }
         },
         list: {
           class: List,
           inlineToolbar: true,
-          config: {
-            defaultStyle: 'unordered'
+        }
+      },
+      data: {
+        blocks: [
+          {
+            type: "paragraph",
+            data: {
+              text: "Start typing your opportunity details here..."
+            }
           }
-        },
-        paragraph: {
-          class: Paragraph,
-          inlineToolbar: true,
-        },
-        underline: Underline,
+        ]
       },
       placeholder: 'Enter opportunity details here...',
-      data: {},
-      inlineToolbar: ['bold', 'italic', 'underline'],
-      tunes: ['textVariant'],
     });
     editorInstanceRef.current = editor;
   };
