@@ -1,14 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Leaf, Search, Users, Calendar, BookOpen, Sprout, Home } from 'lucide-react';
+import { Leaf, Search, Users, Calendar, BookOpen, Sprout, Home, PlusCircle } from 'lucide-react';
 import AnimatedBackground from '@/components/AnimatedBackground';
 import { Link } from 'react-router-dom';
+import CreatePostForm from '@/components/CreatePostForm';
 
 const Oosh = () => {
+  const [showCreatePost, setShowCreatePost] = useState(false);
+  const [posts, setPosts] = useState([]);
+
+  const handleCreatePost = (newPost) => {
+    setPosts([newPost, ...posts]);
+    setShowCreatePost(false);
+  };
+
   return (
     <div className="min-h-screen p-8 relative overflow-hidden">
       <AnimatedBackground />
@@ -19,18 +28,33 @@ const Oosh = () => {
         </h1>
         
         <Card className="mb-8 shadow-lg bg-white bg-opacity-90 backdrop-blur-sm border-teal-200">
-          <CardHeader>
+          <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle className="text-2xl text-teal-700 flex items-center">
               <Home className="mr-2 h-6 w-6" />
-              Featured Farm
+              Community Feed
             </CardTitle>
+            <Button onClick={() => setShowCreatePost(!showCreatePost)} className="bg-teal-500 hover:bg-teal-600 text-white">
+              <PlusCircle className="mr-2 h-4 w-4" />
+              Create Post
+            </Button>
           </CardHeader>
           <CardContent>
-            <h3 className="font-semibold text-lg text-teal-800 mb-2">Finca Aluna</h3>
-            <p className="text-teal-700 mb-4">A beyond organic permaculture farm in Ometepe Island, Nicaragua.</p>
-            <Link to="/farm-profile">
-              <Button className="bg-teal-500 hover:bg-teal-600 text-white">View Farm Profile</Button>
-            </Link>
+            {showCreatePost && (
+              <div className="mb-6">
+                <CreatePostForm onSubmit={handleCreatePost} />
+              </div>
+            )}
+            <ScrollArea className="h-[400px]">
+              {posts.map((post, index) => (
+                <Card key={index} className="mb-4 hover:bg-teal-50 transition-colors">
+                  <CardContent className="p-4">
+                    <h3 className="font-semibold text-lg text-teal-700">{post.title}</h3>
+                    <p className="text-sm text-teal-600 mb-2">{post.type} • {post.tags.join(', ')}</p>
+                    <p className="text-teal-700">{post.content}</p>
+                  </CardContent>
+                </Card>
+              ))}
+            </ScrollArea>
           </CardContent>
         </Card>
         
