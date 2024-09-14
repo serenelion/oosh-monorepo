@@ -2,16 +2,21 @@ import React, { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { MessageSquare, Users, UserPlus, Leaf } from 'lucide-react';
+import { MessageSquare, Users, UserPlus, Leaf, Settings } from 'lucide-react';
 import AIAssistantChat from '../components/AIAssistantChat';
 import CreateAssistantDialog from '../components/CreateAssistantDialog';
 
-const AIAssistant = ({ name, icon, onChat }) => (
+const AIAssistant = ({ name, icon, onChat, onConfigure }) => (
   <Card className="mb-4 hover:shadow-md transition-shadow duration-200">
     <CardHeader>
-      <CardTitle className="flex items-center text-teal-700">
-        {icon}
-        <span className="ml-2">{name}</span>
+      <CardTitle className="flex items-center justify-between text-teal-700">
+        <div className="flex items-center">
+          {icon}
+          <span className="ml-2">{name}</span>
+        </div>
+        <Button variant="ghost" size="sm" onClick={onConfigure}>
+          <Settings className="h-4 w-4" />
+        </Button>
       </CardTitle>
     </CardHeader>
     <CardContent>
@@ -36,6 +41,11 @@ const Dashboard = () => {
     setAssistants([...assistants, { id: Date.now(), ...newAssistant, icon: <UserPlus className="h-6 w-6 text-teal-600" /> }]);
   };
 
+  const handleConfigureAssistant = (assistantId) => {
+    // TODO: Implement configuration logic
+    console.log('Configure assistant:', assistantId);
+  };
+
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-50 to-teal-100 p-8">
       <h1 className="text-4xl font-bold mb-8 text-teal-800 flex items-center">
@@ -58,6 +68,7 @@ const Dashboard = () => {
                   name={assistant.name}
                   icon={assistant.icon}
                   onChat={() => handleChat(assistant.id)}
+                  onConfigure={() => handleConfigureAssistant(assistant.id)}
                 />
               ))}
             </ScrollArea>
