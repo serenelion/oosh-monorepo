@@ -58,6 +58,12 @@ const Index = () => {
   return (
     <div className="flex flex-col h-screen bg-gradient-to-br from-teal-50 to-teal-100 relative">
       <FlowerOfLife />
+      <header className="bg-white bg-opacity-80 shadow-sm p-4 flex justify-between items-center relative z-20">
+        <h1 className="text-2xl font-bold text-teal-700">Oosh</h1>
+        <Button onClick={() => navigate('/join')} variant="outline" className="border-teal-500 text-teal-700 hover:bg-teal-50">
+          Join the Network
+        </Button>
+      </header>
       <main className="flex-grow p-4 flex flex-col relative z-10">
         <Card className="flex-grow flex flex-col bg-white bg-opacity-80 backdrop-blur-sm border-teal-200">
           <ScrollArea className="flex-grow p-4" ref={chatRef}>
@@ -110,11 +116,6 @@ const Index = () => {
           </div>
         </Card>
       </main>
-      <footer className="bg-white bg-opacity-80 shadow-sm p-4 mt-auto relative z-10">
-        <Button onClick={() => navigate('/join')} variant="outline" className="border-teal-500 text-teal-700 hover:bg-teal-50">
-          Join the Network
-        </Button>
-      </footer>
       <WaveAnimation />
     </div>
   );
