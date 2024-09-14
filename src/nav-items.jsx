@@ -1,9 +1,10 @@
-import { HomeIcon, LogInIcon, Users, LayoutDashboard, Gift as GiftIcon } from "lucide-react";
+import { HomeIcon, LogInIcon, Users, LayoutDashboard, Gift as GiftIcon, MessageSquare } from "lucide-react";
 import Index from "./pages/Index.jsx";
 import Auth from "./pages/Auth.jsx";
 import Join from "./pages/Join.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import GiftPage from "./pages/Gift.jsx";
+import ChatBeta from "./pages/ChatBeta.jsx";
 
 export const navItems = [
   {
@@ -35,5 +36,11 @@ export const navItems = [
     to: "/gift",
     icon: <GiftIcon className="h-4 w-4" />,
     page: <GiftPage />,
+  },
+  {
+    title: "Chat Beta",
+    to: "/chat-beta",
+    icon: <MessageSquare className="h-4 w-4" />,
+    page: <ChatBeta />,
   },
 ];
