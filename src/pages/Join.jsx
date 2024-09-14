@@ -1,11 +1,24 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { useNavigate } from 'react-router-dom';
-import { MessageSquare, Users, Leaf, ArrowRight, Gift, Network, Database, Brain, Sprout } from 'lucide-react';
+import { MessageSquare, Users, Leaf, ArrowRight, Gift, Network, Database, Brain, Sprout, Heart } from 'lucide-react';
 
 const Join = () => {
   const navigate = useNavigate();
+  const [showGiftPrompt, setShowGiftPrompt] = useState(false);
+  const [customAmount, setCustomAmount] = useState('');
+
+  const handleJoin = () => {
+    setShowGiftPrompt(true);
+  };
+
+  const handleGift = (amount) => {
+    // TODO: Implement gift processing logic
+    console.log(`Processing gift of $${amount}`);
+    navigate('/dashboard');
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-teal-50 to-teal-100 p-8">
@@ -23,35 +36,35 @@ const Join = () => {
               <Brain className="h-6 w-6 mr-4 text-teal-600 flex-shrink-0" />
               <div>
                 <h3 className="font-semibold text-lg text-teal-800">Augment Your Intelligence</h3>
-                <p className="text-teal-700">Leverage our AI-powered assistants to enhance your decision-making and problem-solving capabilities in permaculture projects.</p>
+                <p className="text-teal-700">Harness the power of AI to enhance your decision-making, allowing you to navigate complex permaculture challenges with confidence and clarity.</p>
               </div>
             </div>
             <div className="flex items-start">
               <Database className="h-6 w-6 mr-4 text-teal-600 flex-shrink-0" />
               <div>
                 <h3 className="font-semibold text-lg text-teal-800">Unlock Data-Driven Insights</h3>
-                <p className="text-teal-700">Gain more leverage with your data, transforming raw information into actionable strategies for sustainable farm management.</p>
+                <p className="text-teal-700">Transform raw information into actionable strategies, giving you the leverage to make informed decisions and optimize your permaculture practices.</p>
               </div>
             </div>
             <div className="flex items-start">
               <Sprout className="h-6 w-6 mr-4 text-teal-600 flex-shrink-0" />
               <div>
                 <h3 className="font-semibold text-lg text-teal-800">Pioneer the Regenerative Renaissance</h3>
-                <p className="text-teal-700">Be at the forefront of the sustainable agriculture movement, contributing to and benefiting from cutting-edge permaculture practices.</p>
+                <p className="text-teal-700">Be at the forefront of a global movement, contributing to and benefiting from innovative practices that heal our planet and nourish communities.</p>
               </div>
             </div>
             <div className="flex items-start">
               <Users className="h-6 w-6 mr-4 text-teal-600 flex-shrink-0" />
               <div>
                 <h3 className="font-semibold text-lg text-teal-800">Collaborate with Visionaries</h3>
-                <p className="text-teal-700">Connect with a global network of permaculture experts and innovators, fostering knowledge exchange and collaborative problem-solving.</p>
+                <p className="text-teal-700">Connect with a global network of permaculture experts and innovators, fostering deep relationships and collaborative problem-solving.</p>
               </div>
             </div>
             <div className="flex items-start">
-              <MessageSquare className="h-6 w-6 mr-4 text-teal-600 flex-shrink-0" />
+              <Heart className="h-6 w-6 mr-4 text-teal-600 flex-shrink-0" />
               <div>
-                <h3 className="font-semibold text-lg text-teal-800">Access Collective Wisdom</h3>
-                <p className="text-teal-700">Tap into the collective intelligence of the permaculture community, gaining insights from diverse experiences and innovative approaches.</p>
+                <h3 className="font-semibold text-lg text-teal-800">Fulfill Your Deepest Aspirations</h3>
+                <p className="text-teal-700">Oosh provides a safe space to express and pursue your most profound desires for a sustainable, harmonious world. Here, your vision for positive change finds support and amplification.</p>
               </div>
             </div>
           </CardContent>
@@ -62,26 +75,52 @@ const Join = () => {
           </CardHeader>
           <CardContent>
             <p className="mb-4 text-teal-700">
-              Oosh is more than a platform—it's a catalyst for the regenerative renaissance. As an open-source project within the Movement Creator Ecosystem, we're revolutionizing how permaculture enthusiasts collaborate, innovate, and drive sustainable change.
+              Oosh is more than a platform—it's a catalyst for the regenerative renaissance. We're revolutionizing how permaculture enthusiasts collaborate, innovate, and drive sustainable change by leveraging the human spirit and systems innovation to serve humanity's deepest needs.
             </p>
             <p className="mb-4 text-teal-700">
-              By joining Oosh, you're not just gaining access to tools—you're becoming part of a movement that's reshaping our approach to agriculture and sustainability. Your involvement is crucial in our collective journey towards a regenerative future.
+              By joining Oosh, you're not just gaining access to tools—you're becoming part of a movement that's reshaping our approach to agriculture, sustainability, and human flourishing. Your involvement is crucial in our collective journey towards a regenerative future where everyone's needs are met in harmony with the planet.
             </p>
             <p className="mb-6 text-teal-700 font-semibold">
-              After signing up, you'll be invited to play a pivotal role in Oosh's evolution:
+              As an early adopter, you have a unique opportunity to shape the future of Oosh:
             </p>
             <ul className="list-disc list-inside mb-6 text-teal-700">
-              <li>Contribute financially to fuel Oosh's development and expand our capabilities</li>
+              <li>Contribute to our crowd-funding initiative to fuel Oosh's development and expand our capabilities</li>
               <li>Amplify our impact by inviting fellow innovators to join the network</li>
               <li>Shape the future of permaculture by sharing your unique insights and experiences</li>
+              <li>Participate in co-creating solutions that address our collective challenges</li>
             </ul>
             <p className="mb-6 text-teal-700">
-              Your participation goes beyond mere membership—it's an investment in a sustainable future and an opportunity to be at the forefront of the permaculture revolution.
+              Your participation goes beyond mere membership—it's an investment in a sustainable future and an opportunity to be at the forefront of a global transformation in how we live, work, and thrive together.
             </p>
-            <Button onClick={() => navigate('/auth')} className="bg-teal-500 hover:bg-teal-600 text-white w-full">
-              Join Oosh & Pioneer the Future of Permaculture
-              <ArrowRight className="ml-2 h-4 w-4" />
-            </Button>
+            {!showGiftPrompt ? (
+              <Button onClick={handleJoin} className="bg-teal-500 hover:bg-teal-600 text-white w-full">
+                Join Oosh & Pioneer the Future of Permaculture
+                <ArrowRight className="ml-2 h-4 w-4" />
+              </Button>
+            ) : (
+              <div className="space-y-4">
+                <p className="text-teal-700 font-semibold">Choose your gift amount to support Oosh's development:</p>
+                <div className="grid grid-cols-2 gap-4">
+                  {[10, 100, 1000, 10000].map((amount) => (
+                    <Button key={amount} onClick={() => handleGift(amount)} className="bg-teal-500 hover:bg-teal-600 text-white">
+                      ${amount}
+                    </Button>
+                  ))}
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    type="number"
+                    placeholder="Custom amount"
+                    value={customAmount}
+                    onChange={(e) => setCustomAmount(e.target.value)}
+                    className="flex-grow"
+                  />
+                  <Button onClick={() => handleGift(customAmount)} className="bg-teal-500 hover:bg-teal-600 text-white">
+                    Gift Custom Amount
+                  </Button>
+                </div>
+              </div>
+            )}
           </CardContent>
         </Card>
       </div>
