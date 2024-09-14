@@ -6,8 +6,6 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { useNavigate } from 'react-router-dom';
 import { Send, Leaf } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
-import FlowerOfLife from '@/components/FlowerOfLife';
-import WaveAnimation from '@/components/WaveAnimation';
 import AnimatedBackground from '@/components/AnimatedBackground';
 
 const Index = () => {
@@ -40,7 +38,6 @@ const Index = () => {
     setInput('');
     setIsTyping(true);
 
-    // TODO: Integrate with OpenAI API
     setTimeout(() => {
       setIsTyping(false);
       setMessages([...newMessages, {

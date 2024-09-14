@@ -4,13 +4,13 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ArrowRight, Leaf } from 'lucide-react';
+import AnimatedBackground from '@/components/AnimatedBackground';
 
 const GiftPage = () => {
   const navigate = useNavigate();
   const [customAmount, setCustomAmount] = useState('');
 
   const handleGift = (amount) => {
-    // TODO: Implement gift processing logic
     console.log(`Processing gift of $${amount}`);
     navigate('/dashboard');
   };
@@ -21,8 +21,9 @@ const GiftPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-teal-50 to-teal-100 p-8 flex items-center justify-center">
-      <Card className="w-full max-w-md shadow-lg bg-white bg-opacity-90 backdrop-blur-sm border-teal-200">
+    <div className="min-h-screen p-8 flex items-center justify-center relative overflow-hidden">
+      <AnimatedBackground />
+      <Card className="w-full max-w-md shadow-lg bg-white bg-opacity-90 backdrop-blur-sm border-teal-200 relative z-10">
         <CardHeader>
           <CardTitle className="text-2xl text-teal-700 flex items-center justify-center">
             <Leaf className="mr-2 h-6 w-6" />

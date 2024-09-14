@@ -3,6 +3,7 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { MessageSquare, Users, Leaf, Lightbulb, Wrench } from 'lucide-react';
 import AIAssistantChat from '../components/AIAssistantChat';
 import LeftNav from '../components/LeftNav';
+import AnimatedBackground from '@/components/AnimatedBackground';
 
 const Dashboard = () => {
   const [assistants] = useState([
@@ -21,21 +22,22 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="flex h-screen bg-white">
+    <div className="flex h-screen bg-white relative overflow-hidden">
+      <AnimatedBackground />
       <LeftNav
         assistants={assistants}
         chats={chats}
         onSelectAssistant={handleChat}
         onSelectChat={(chat) => setActiveChat(chat.assistant)}
       />
-      <main className="flex-1 flex flex-col">
-        <header className="bg-white border-b border-gray-200 p-4">
+      <main className="flex-1 flex flex-col relative z-10">
+        <header className="bg-white bg-opacity-80 border-b border-gray-200 p-4">
           <h1 className="text-2xl font-bold text-teal-800 flex items-center">
             <Leaf className="mr-2 h-6 w-6 text-teal-600" />
             Oosh Dashboard
           </h1>
         </header>
-        <div className="flex-1 overflow-hidden">
+        <div className="flex-1 overflow-hidden bg-white bg-opacity-80 backdrop-blur-sm">
           {activeChat ? (
             <AIAssistantChat assistant={activeChat} />
           ) : (
