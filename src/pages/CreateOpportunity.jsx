@@ -9,9 +9,6 @@ import AnimatedBackground from '@/components/AnimatedBackground';
 import EditorJS from '@editorjs/editorjs';
 import Header from '@editorjs/header';
 import List from '@editorjs/list';
-import Embed from '@editorjs/embed';
-import Image from '@editorjs/image';
-import DragDrop from '@editorjs/drag-drop';
 
 const OPPORTUNITY_CATEGORIES = [
   { value: 'volunteer', label: 'Volunteer', icon: <Users className="h-6 w-6" /> },
@@ -47,15 +44,9 @@ const CreateOpportunity = () => {
       tools: {
         header: Header,
         list: List,
-        embed: Embed,
-        image: Image,
       },
       placeholder: 'Enter opportunity details here...',
-      inlineToolbar: ['link', 'bold', 'italic'],
       data: {},
-      onReady: () => {
-        new DragDrop(editor);
-      },
     });
     editorInstanceRef.current = editor;
   };
