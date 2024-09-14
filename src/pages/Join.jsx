@@ -101,7 +101,7 @@ const Join = () => {
             </p>
             {!showGiftPrompt ? (
               <Button onClick={handleJoin} className="bg-teal-500 hover:bg-teal-600 text-white w-full">
-                Join Oosh & Pioneer the Future of Permaculture
+                Gain Access & Pioneer the Future of Permaculture
                 <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             ) : (
