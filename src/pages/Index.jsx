@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Card } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { useNavigate } from 'react-router-dom';
-import { MessageSquare, Send } from 'lucide-react';
+import { Send } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import FlowerOfLife from '@/components/FlowerOfLife';
 import WaveAnimation from '@/components/WaveAnimation';
@@ -111,9 +111,8 @@ const Index = () => {
         </Card>
       </main>
       <footer className="bg-white bg-opacity-80 shadow-sm p-4 mt-auto relative z-10">
-        <Button onClick={() => navigate('/auth')} variant="outline" className="border-teal-500 text-teal-700 hover:bg-teal-50">
-          <MessageSquare className="h-4 w-4 mr-2" />
-          Create a Social Enterprise Account
+        <Button onClick={() => navigate('/join')} variant="outline" className="border-teal-500 text-teal-700 hover:bg-teal-50">
+          Join the Network
         </Button>
       </footer>
       <WaveAnimation />
