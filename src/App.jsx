@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
 import { navItems } from "./nav-items";
+import CreateOpportunity from "./pages/CreateOpportunity";
 
 const queryClient = new QueryClient();
 
@@ -17,6 +18,7 @@ const AppContent = () => {
           {navItems.map(({ to, page }) => (
             <Route key={to} path={to} element={page} />
           ))}
+          <Route path="/create" element={<CreateOpportunity />} />
         </Routes>
       </CSSTransition>
     </TransitionGroup>
