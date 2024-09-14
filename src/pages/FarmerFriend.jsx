@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
@@ -9,15 +9,57 @@ import AnimatedBackground from '@/components/AnimatedBackground';
 const FarmerFriend = () => {
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
+  const [currentQuestion, setCurrentQuestion] = useState(0);
+  const [surveyComplete, setSurveyComplete] = useState(false);
+  const [surveyData, setSurveyData] = useState({});
+
+  const surveyQuestions = [
+    "What's your name and the name of your farm?",
+    "Where is your farm located (country and region)?",
+    "How long have you been practicing permaculture?",
+    "What's the size of your permaculture farm?",
+    "What are the main crops or products you produce?",
+    "Do you use any specific permaculture techniques or principles?",
+    "What challenges do you face in your permaculture practice?",
+    "Are you open to connecting with other permaculture farmers in your area?",
+    "Would you like to share any tips or success stories from your permaculture experience?",
+    "How do you see technology supporting permaculture practices in the future?"
+  ];
+
+  useEffect(() => {
+    if (messages.length === 0) {
+      setMessages([
+        { role: 'bot', content: "Hello! I'm your Farmer Friend Assistant, a digital community organizer. My purpose is to help build a directory of all the permacultures on the planet. Would you like to participate in our survey?" },
+      ]);
+    }
+  }, []);
 
   const sendMessage = async () => {
     if (input.trim() === '') return;
 
-    const newMessages = [
-      ...messages,
-      { role: 'user', content: input },
-      { role: 'bot', content: "I'm your Farmer Friend Assistant. How can I help you with your farming needs today?" }
-    ];
+    let newMessages = [...messages, { role: 'user', content: input }];
+
+    if (!surveyComplete) {
+      if (currentQuestion === 0 && input.toLowerCase() !== 'yes') {
+        newMessages.push({ role: 'bot', content: "I understand. If you change your mind, feel free to come back anytime. Is there anything else I can help you with regarding permaculture?" });
+        setSurveyComplete(true);
+      } else {
+        setSurveyData({ ...surveyData, [surveyQuestions[currentQuestion]]: input });
+        
+        if (currentQuestion < surveyQuestions.length - 1) {
+          setCurrentQuestion(currentQuestion + 1);
+          newMessages.push({ role: 'bot', content: surveyQuestions[currentQuestion + 1] });
+        } else {
+          newMessages.push({ role: 'bot', content: "Thank you for completing the survey! Your input is valuable for our permaculture community. Is there anything else you'd like to know or discuss about permaculture?" });
+          setSurveyComplete(true);
+          // Here you would typically send the surveyData to your backend
+          console.log("Survey data:", surveyData);
+        }
+      }
+    } else {
+      newMessages.push({ role: 'bot', content: "That's interesting! As a permaculture assistant, I'm here to help. What specific aspect of permaculture would you like to explore further?" });
+    }
+
     setMessages(newMessages);
     setInput("");
   };
@@ -48,7 +90,7 @@ const FarmerFriend = () => {
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
-                placeholder="Ask your farming question..."
+                placeholder="Type your response..."
                 className="flex-grow mr-2 border-green-300 focus:ring-green-500"
               />
               <Button onClick={sendMessage} className="bg-green-500 hover:bg-green-600 text-white">
