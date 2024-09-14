@@ -4,18 +4,36 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import GiftSelection from '../components/GiftSelection';
 
 const Auth = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isSigningUp, setIsSigningUp] = useState(false);
+  const [showGiftSelection, setShowGiftSelection] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = (e, action) => {
     e.preventDefault();
-    // TODO: Implement actual authentication logic
-    console.log(`${action} with`, { email, password });
-    navigate('/clarity');
+    if (action === 'signup') {
+      setIsSigningUp(true);
+      setShowGiftSelection(true);
+    } else {
+      // TODO: Implement actual authentication logic
+      console.log(`${action} with`, { email, password });
+      navigate('/dashboard');
+    }
   };
+
+  const handleGiftSelection = (gift) => {
+    // TODO: Save the selected gift along with user information
+    console.log('Selected gift:', gift);
+    navigate('/dashboard');
+  };
+
+  if (showGiftSelection) {
+    return <GiftSelection onSelect={handleGiftSelection} />;
+  }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-100">
