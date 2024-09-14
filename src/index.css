@@ -108,7 +108,7 @@
 }
 
 .wave {
-  @apply absolute w-[200%] h-[200%] top-[-50%] left-[-50%] rounded-[40%] animate-[wave_20s_infinite_linear] opacity-20;
+  @apply absolute w-[200%] h-[200%] top-[-50%] left-[-50%] rounded-[40%] opacity-20;
 }
 
 .wave1 {
@@ -116,11 +116,11 @@
 }
 
 .wave2 {
-  @apply bg-gradient-radial from-green-500 to-blue-500 animate-[wave_30s_infinite_linear] delay-[-5s];
+  @apply bg-gradient-radial from-green-500 to-blue-500 animate-[wave_30s_infinite_linear] delay-[5000ms];
 }
 
 .wave3 {
-  @apply bg-gradient-radial from-blue-400 to-green-400 animate-[wave_40s_infinite_linear] delay-[-10s];
+  @apply bg-gradient-radial from-blue-400 to-green-400 animate-[wave_40s_infinite_linear] delay-[10000ms];
 }
 
 @keyframes wave {
