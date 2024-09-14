@@ -19,7 +19,7 @@ const Index = () => {
   useEffect(() => {
     setMessages([
       {
-        text: "Hi! I'm Movement Creator. I'm here to support you in creating the most impactful solutions for humanity. What are your most aspirational goals?",
+        text: "Welcome to Oosh! I'm an AI, and I'm being trained to help you to connect with the collective intelligence of the permaculture community.",
         sender: 'ai'
       }
     ]);
@@ -43,7 +43,7 @@ const Index = () => {
     setTimeout(() => {
       setIsTyping(false);
       setMessages([...newMessages, {
-        text: "That's an inspiring goal! Let's break it down. What's the first step you envision towards achieving this?",
+        text: "That's an interesting perspective! How do you think this relates to permaculture principles?",
         sender: 'ai'
       }]);
     }, 2000);
@@ -81,14 +81,14 @@ const Index = () => {
             ))}
             {isTyping && (
               <div className="chat-bubble chat-bubble-ai bg-teal-100 text-teal-900">
-                <span className="typing-indicator">Movement Creator is typing<span>.</span><span>.</span><span>.</span></span>
+                <span className="typing-indicator">Oosh AI is typing<span>.</span><span>.</span><span>.</span></span>
               </div>
             )}
           </ScrollArea>
           <div className="p-4 flex">
             <Input
               type="text"
-              placeholder="Share your aspirations and ideas..."
+              placeholder="Share your thoughts on permaculture..."
               value={input}
               onChange={(e) => setInput(e.target.value)}
               onKeyPress={handleKeyPress}
