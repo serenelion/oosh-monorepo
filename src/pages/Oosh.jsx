@@ -3,106 +3,78 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Leaf, Search, Sprout, MapPin, Calendar } from 'lucide-react';
+import { Leaf, Search, Sprout, MapPin, Calendar, User } from 'lucide-react';
 import AnimatedBackground from '@/components/AnimatedBackground';
 import { Link } from 'react-router-dom';
+
+const categories = ['All', 'Volunteer', 'Online Training', 'Job', 'Investment', 'Live Event'];
+
+const OpportunityCard = ({ opportunity }) => (
+  <Card key={opportunity.id} className="mb-4 hover:bg-teal-50 transition-colors">
+    <CardContent className="p-4">
+      <Link to={`/opportunity/${opportunity.id}`} className="hover:underline">
+        <h3 className="font-semibold text-lg text-teal-700">{opportunity.title}</h3>
+      </Link>
+      <div className="flex items-center text-sm text-teal-600 mb-2">
+        <Sprout className="h-4 w-4 mr-1" />
+        <span>{opportunity.category}</span>
+        <MapPin className="h-4 w-4 ml-2 mr-1" />
+        <span>{opportunity.location}</span>
+      </div>
+      <p className="text-teal-700 mb-2">{opportunity.description}</p>
+      <div className="flex justify-between items-center mt-4">
+        <div className="flex items-center space-x-2">
+          <Calendar className="h-4 w-4 text-teal-600" />
+          <span className="text-sm text-teal-600">
+            {new Date(opportunity.startDate).toLocaleDateString()} - {new Date(opportunity.endDate).toLocaleDateString()}
+          </span>
+        </div>
+        {opportunity.postedBy && (
+          <Link to={`/farm-profile/${opportunity.postedBy.id}`} className="flex items-center text-sm text-teal-600 hover:underline">
+            <User className="h-4 w-4 mr-1" />
+            <span>{opportunity.postedBy.name}</span>
+          </Link>
+        )}
+      </div>
+    </CardContent>
+  </Card>
+);
 
 const Oosh = () => {
   const [opportunities, setOpportunities] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
 
-  const categories = ['All', 'Volunteer', 'Online Training', 'Job', 'Investment', 'Live Event'];
-
   useEffect(() => {
-    // Simulated data for demonstration
-    const placeholderOpportunities = [
-      {
-        id: 1,
-        title: "Volunteer at Sunshine Organic Farm",
-        category: "Volunteer",
-        location: "California, USA",
-        description: "Join us for a week of hands-on experience in organic farming techniques.",
-        startDate: "2024-06-01",
-        endDate: "2024-06-07",
-        postedBy: {
-          id: "user123",
-          name: "John Doe",
-        },
-      },
-      {
-        id: 2,
-        title: "Permaculture Design Course",
-        category: "Online Training",
-        location: "Virtual",
-        description: "Comprehensive online course covering permaculture principles and design strategies.",
-        startDate: "2024-07-15",
-        endDate: "2024-08-30",
-        postedBy: {
-          id: "user456",
-          name: "Jane Smith",
-        },
-      },
-      {
-        id: 3,
-        title: "Sustainable Agriculture Internship",
-        category: "Job",
-        location: "Vermont, USA",
-        description: "6-month paid internship focused on sustainable farming practices and community engagement.",
-        startDate: "2024-05-01",
-        endDate: "2024-10-31",
-        postedBy: {
-          id: "user789",
-          name: "Green Acres Farm",
-        },
-      },
-      {
-        id: 4,
-        title: "Eco-Lodge Investment Opportunity",
-        category: "Investment",
-        location: "Costa Rica",
-        description: "Seeking investors for an eco-lodge project integrating permaculture principles.",
-        startDate: "2024-09-01",
-        endDate: "2025-09-01",
-        postedBy: {
-          id: "user101",
-          name: "EcoVentures Inc.",
-        },
-      },
-      {
-        id: 5,
-        title: "Urban Gardening Workshop",
-        category: "Live Event",
-        location: "New York City, USA",
-        description: "One-day workshop on maximizing food production in urban environments.",
-        startDate: "2024-08-15",
-        endDate: "2024-08-15",
-        postedBy: {
-          id: "user202",
-          name: "City Growers Association",
-        },
-      }
-    ];
-
-    setOpportunities(placeholderOpportunities);
-
-    // Commented out API integration code
-    /*
     const fetchOpportunities = async () => {
-      try {
-        const response = await fetch('https://sea-turtle-app-4in2t.ondigitalocean.app/api/opportunities');
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        setOpportunities(data);
-      } catch (error) {
-        console.error("Failed to fetch opportunities:", error);
-      }
+      // Simulated API call
+      const placeholderOpportunities = [
+        {
+          id: 1,
+          title: "Volunteer at Sunshine Organic Farm",
+          category: "Volunteer",
+          location: "California, USA",
+          description: "Join us for a week of hands-on experience in organic farming techniques.",
+          startDate: "2024-06-01",
+          endDate: "2024-06-07",
+          postedBy: { id: "user123", name: "John Doe" },
+        },
+        {
+          id: 2,
+          title: "Permaculture Design Course",
+          category: "Online Training",
+          location: "Virtual",
+          description: "Comprehensive online course covering permaculture principles and design strategies.",
+          startDate: "2024-07-15",
+          endDate: "2024-08-30",
+          postedBy: { id: "user456", name: "Jane Smith" },
+        },
+        // Add more placeholder opportunities as needed
+      ];
+      setOpportunities(placeholderOpportunities);
     };
 
     fetchOpportunities();
-    */
   }, []);
 
   const filteredOpportunities = opportunities.filter(opp => 
@@ -164,28 +136,7 @@ const Oosh = () => {
             </div>
             <ScrollArea className="h-[400px] sm:h-[500px] md:h-[600px]">
               {filteredOpportunities.map((opportunity) => (
-                <Card key={opportunity.id} className="mb-4 hover:bg-teal-50 transition-colors">
-                  <CardContent className="p-4">
-                    <Link to={`/opportunity/${opportunity.id}`} className="hover:underline">
-                      <h3 className="font-semibold text-lg text-teal-700">{opportunity.title}</h3>
-                    </Link>
-                    <p className="text-sm text-teal-600 mb-2">{opportunity.category} • {opportunity.location}</p>
-                    <p className="text-teal-700 mb-2">{opportunity.description}</p>
-                    <div className="flex justify-between items-center mt-4">
-                      <div className="flex items-center space-x-2">
-                        <Calendar className="h-4 w-4 text-teal-600" />
-                        <span className="text-sm text-teal-600">
-                          {new Date(opportunity.startDate).toLocaleDateString()} - {new Date(opportunity.endDate).toLocaleDateString()}
-                        </span>
-                      </div>
-                      {opportunity.postedBy && (
-                        <Link to={`/farm-profile/${opportunity.postedBy.id}`} className="text-sm text-teal-600 hover:underline">
-                          Posted by: {opportunity.postedBy.name}
-                        </Link>
-                      )}
-                    </div>
-                  </CardContent>
-                </Card>
+                <OpportunityCard key={opportunity.id} opportunity={opportunity} />
               ))}
               {filteredOpportunities.length === 0 && (
                 <p className="text-center text-teal-600 mt-4">No opportunities found. Be the first to create one!</p>
