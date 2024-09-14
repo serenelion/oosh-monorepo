@@ -9,16 +9,12 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 import { Leaf, ChevronDown } from 'lucide-react';
 import AnimatedBackground from '@/components/AnimatedBackground';
-import EditorJS from '@editorjs/editorjs';
-import Header from '@editorjs/header';
-import List from '@editorjs/list';
-import Embed from '@editorjs/embed';
-import ImageTool from '@editorjs/image';
-import LinkTool from '@editorjs/link';
-import Quote from '@editorjs/quote';
-import Checklist from '@editorjs/checklist';
-import CodeTool from '@editorjs/code';
-import Table from '@editorjs/table';
+import EditorToolbar from '@/components/EditorToolbar';
+import { useEditor, EditorContent } from '@tiptap/react';
+import StarterKit from '@tiptap/starter-kit';
+import Underline from '@tiptap/extension-underline';
+import Link from '@tiptap/extension-link';
+import Image from '@tiptap/extension-image';
 
 const OPPORTUNITY_CATEGORIES = [
   { value: 'volunteer', label: 'Volunteer' },
@@ -64,52 +60,22 @@ const CreateOpportunity = () => {
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [location, setLocation] = useState('');
-  const [editor, setEditor] = useState(null);
 
-  const initializeEditor = useCallback(() => {
-    const editor = new EditorJS({
-      holder: 'editorjs',
-      tools: {
-        header: Header,
-        list: List,
-        embed: Embed,
-        image: {
-          class: ImageTool,
-          config: {
-            endpoints: {
-              byFile: 'http://localhost:8008/uploadFile',
-              byUrl: 'http://localhost:8008/fetchUrl',
-            }
-          }
-        },
-        linkTool: LinkTool,
-        quote: Quote,
-        checklist: Checklist,
-        code: CodeTool,
-        table: Table,
-      },
-      placeholder: 'Enter opportunity details...',
-      data: {}
-    });
-    setEditor(editor);
-  }, []);
-
-  useEffect(() => {
-    if (!editor) {
-      initializeEditor();
-    }
-    return () => {
-      if (editor) {
-        editor.destroy();
-      }
-    };
-  }, [editor, initializeEditor]);
+  const editor = useEditor({
+    extensions: [
+      StarterKit,
+      Underline,
+      Link,
+      Image,
+    ],
+    content: '',
+  });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (editor) {
-      const data = await editor.save();
-      console.log('Form submitted:', { title, selectedCategory, metadata, startDate, endDate, location, details: data });
+      const content = editor.getHTML();
+      console.log('Form submitted:', { title, selectedCategory, metadata, startDate, endDate, location, content });
       navigate('/opportunities');
     }
   };
@@ -219,7 +185,10 @@ const CreateOpportunity = () => {
                 </div>
                 <div className="md:col-span-2">
                   <Label>Details</Label>
-                  <div id="editorjs" className="min-h-[500px] border border-gray-300 rounded-md p-2 mt-1"></div>
+                  <div className="mt-1 border border-gray-300 rounded-md p-2">
+                    <EditorToolbar editor={editor} />
+                    <EditorContent editor={editor} className="min-h-[500px] prose max-w-none" />
+                  </div>
                 </div>
               </div>
               <Button type="submit" className="w-full bg-teal-500 hover:bg-teal-600 text-white">
