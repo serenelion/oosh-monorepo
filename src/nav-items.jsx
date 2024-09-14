@@ -1,9 +1,9 @@
-import { HomeIcon, LogInIcon, Users, LayoutDashboard, Gift } from "lucide-react";
+import { HomeIcon, LogInIcon, Users, LayoutDashboard, Gift as GiftIcon } from "lucide-react";
 import Index from "./pages/Index.jsx";
 import Auth from "./pages/Auth.jsx";
 import Join from "./pages/Join.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
-import Gift from "./pages/Gift.jsx";
+import GiftPage from "./pages/Gift.jsx";
 
 export const navItems = [
   {
@@ -33,7 +33,7 @@ export const navItems = [
   {
     title: "Choose Your Gift",
     to: "/gift",
-    icon: <Gift className="h-4 w-4" />,
-    page: <Gift />,
+    icon: <GiftIcon className="h-4 w-4" />,
+    page: <GiftPage />,
   },
 ];
