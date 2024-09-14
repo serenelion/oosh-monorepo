@@ -4,39 +4,36 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Leaf } from 'lucide-react';
+import { Leaf, Briefcase, Users, PiggyBank, Calendar, Video, Map } from 'lucide-react';
 import AnimatedBackground from '@/components/AnimatedBackground';
 import ReactQuill from 'react-quill';
 import 'react-quill/dist/quill.snow.css';
 
 const OPPORTUNITY_CATEGORIES = [
-  { value: 'volunteer', label: 'Volunteer', fields: ['duration', 'skills'] },
-  { value: 'job', label: 'Job', fields: ['salary', 'employmentType'] },
-  { value: 'investment', label: 'Investment', fields: ['amount', 'equity'] },
-  { value: 'liveEvent', label: 'Live Event', fields: ['venue', 'capacity'] },
-  { value: 'onlineTraining', label: 'Online Training', fields: ['platform', 'duration'] },
-  { value: 'landForSale', label: 'Land for Sale', fields: ['acreage', 'price'] },
+  { value: 'volunteer', label: 'Volunteer', icon: <Users className="h-6 w-6" /> },
+  { value: 'job', label: 'Job', icon: <Briefcase className="h-6 w-6" /> },
+  { value: 'investment', label: 'Investment', icon: <PiggyBank className="h-6 w-6" /> },
+  { value: 'liveEvent', label: 'Live Event', icon: <Calendar className="h-6 w-6" /> },
+  { value: 'onlineTraining', label: 'Online Training', icon: <Video className="h-6 w-6" /> },
+  { value: 'landForSale', label: 'Land for Sale', icon: <Map className="h-6 w-6" /> },
 ];
 
 const CreateOpportunity = () => {
   const navigate = useNavigate();
   const [title, setTitle] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('');
-  const [metadata, setMetadata] = useState({});
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
-  const [location, setLocation] = useState('');
   const [content, setContent] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log('Form submitted:', { title, selectedCategory, metadata, startDate, endDate, location, content });
+    const opportunityData = {
+      title,
+      category: selectedCategory,
+      details: content,
+    };
+    console.log('Form submitted:', opportunityData);
+    // TODO: Send data to backend
     navigate('/opportunities');
-  };
-
-  const handleMetadataChange = (field, value) => {
-    setMetadata(prev => ({ ...prev, [field]: value }));
   };
 
   return (
@@ -64,66 +61,6 @@ const CreateOpportunity = () => {
                       className="mt-1"
                     />
                   </div>
-                  {selectedCategory && (
-                    <div className="space-y-4">
-                      <h3 className="font-semibold text-lg text-teal-700">Metadata</h3>
-                      {OPPORTUNITY_CATEGORIES.find(c => c.value === selectedCategory)?.fields.map((field) => (
-                        <div key={field}>
-                          <Label htmlFor={field}>{field.charAt(0).toUpperCase() + field.slice(1)}</Label>
-                          <Input
-                            id={field}
-                            value={metadata[field] || ''}
-                            onChange={(e) => handleMetadataChange(field, e.target.value)}
-                            className="mt-1"
-                          />
-                        </div>
-                      ))}
-                    </div>
-                  )}
-                  <div>
-                    <Label htmlFor="location">Location</Label>
-                    <Input
-                      id="location"
-                      value={location}
-                      onChange={(e) => setLocation(e.target.value)}
-                      className="mt-1"
-                    />
-                  </div>
-                  <div className="grid grid-cols-2 gap-4">
-                    <div>
-                      <Label htmlFor="startDate">Start Date</Label>
-                      <Input
-                        id="startDate"
-                        type="date"
-                        value={startDate}
-                        onChange={(e) => setStartDate(e.target.value)}
-                        className="mt-1"
-                      />
-                    </div>
-                    <div>
-                      <Label htmlFor="endDate">End Date</Label>
-                      <Input
-                        id="endDate"
-                        type="date"
-                        value={endDate}
-                        onChange={(e) => setEndDate(e.target.value)}
-                        className="mt-1"
-                      />
-                    </div>
-                  </div>
-                </div>
-                <div className="space-y-6">
-                  <div>
-                    <Label>Category</Label>
-                    <RadioGroup value={selectedCategory} onValueChange={setSelectedCategory} className="mt-2 space-y-2">
-                      {OPPORTUNITY_CATEGORIES.map((category) => (
-                        <div key={category.value} className="flex items-center space-x-2">
-                          <RadioGroupItem value={category.value} id={category.value} />
-                          <Label htmlFor={category.value}>{category.label}</Label>
-                        </div>
-                      ))}
-                    </RadioGroup>
-                  </div>
                   <div>
                     <Label>Details</Label>
                     <div className="mt-1 border border-gray-300 rounded-md">
@@ -134,6 +71,27 @@ const CreateOpportunity = () => {
                         className="h-64"
                       />
                     </div>
+                  </div>
+                </div>
+                <div>
+                  <Label className="mb-2 block">Category</Label>
+                  <div className="grid grid-cols-2 gap-4">
+                    {OPPORTUNITY_CATEGORIES.map((category) => (
+                      <Card
+                        key={category.value}
+                        className={`cursor-pointer transition-all ${
+                          selectedCategory === category.value
+                            ? 'border-teal-500 bg-teal-50'
+                            : 'border-gray-200 hover:border-teal-300'
+                        }`}
+                        onClick={() => setSelectedCategory(category.value)}
+                      >
+                        <CardContent className="flex flex-col items-center justify-center p-4">
+                          {category.icon}
+                          <span className="mt-2 text-sm font-medium">{category.label}</span>
+                        </CardContent>
+                      </Card>
+                    ))}
                   </div>
                 </div>
               </div>
