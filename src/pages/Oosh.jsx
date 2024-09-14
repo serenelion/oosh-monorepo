@@ -10,6 +10,9 @@ import { Link } from 'react-router-dom';
 const Oosh = () => {
   const [opportunities, setOpportunities] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('All');
+
+  const categories = ['All', 'Volunteer', 'Online Training', 'Job', 'Investment', 'Live Event'];
 
   useEffect(() => {
     // Simulated data for demonstration
@@ -83,8 +86,9 @@ const Oosh = () => {
   }, []);
 
   const filteredOpportunities = opportunities.filter(opp => 
-    opp.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    opp.description.toLowerCase().includes(searchTerm.toLowerCase())
+    (selectedCategory === 'All' || opp.category === selectedCategory) &&
+    (opp.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    opp.description.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   return (
@@ -109,6 +113,22 @@ const Oosh = () => {
             </Link>
           </CardHeader>
           <CardContent>
+            <div className="flex flex-wrap gap-2 mb-4">
+              {categories.map((category) => (
+                <Button
+                  key={category}
+                  onClick={() => setSelectedCategory(category)}
+                  variant={selectedCategory === category ? "default" : "outline"}
+                  className={`${
+                    selectedCategory === category
+                      ? "bg-teal-500 text-white"
+                      : "text-teal-700 border-teal-300 hover:bg-teal-50"
+                  }`}
+                >
+                  {category}
+                </Button>
+              ))}
+            </div>
             <div className="flex flex-col sm:flex-row mb-4 space-y-2 sm:space-y-0 sm:space-x-2">
               <Input
                 type="text"
