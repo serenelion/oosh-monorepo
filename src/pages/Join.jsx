@@ -7,12 +7,15 @@ import { MessageSquare, Users, Leaf, ArrowRight, Gift, Network, Database, Brain,
 
 const Join = () => {
   const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [showGiftPrompt, setShowGiftPrompt] = useState(false);
   const [customAmount, setCustomAmount] = useState('');
 
-  const handleJoin = () => {
+  const handleSignUp = (e) => {
+    e.preventDefault();
     // TODO: Implement actual signup logic
-    console.log('User signed up');
+    console.log('User signed up with:', { email, password });
     setShowGiftPrompt(true);
   };
 
@@ -100,10 +103,28 @@ const Join = () => {
               Your participation goes beyond mere membership—it's an investment in a sustainable future and an opportunity to be at the forefront of a global transformation in how we live, work, and thrive together.
             </p>
             {!showGiftPrompt ? (
-              <Button onClick={handleJoin} className="bg-teal-500 hover:bg-teal-600 text-white w-full">
-                Gain Access & Pioneer the Future of Permaculture
-                <ArrowRight className="ml-2 h-4 w-4" />
-              </Button>
+              <form onSubmit={handleSignUp} className="space-y-4">
+                <Input
+                  type="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  className="border-teal-300 focus:ring-teal-500"
+                />
+                <Input
+                  type="password"
+                  placeholder="Password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  className="border-teal-300 focus:ring-teal-500"
+                />
+                <Button type="submit" className="w-full bg-teal-500 hover:bg-teal-600 text-white">
+                  Gain Access & Pioneer the Future of Permaculture
+                  <ArrowRight className="ml-2 h-4 w-4" />
+                </Button>
+              </form>
             ) : (
               <div className="space-y-4">
                 <p className="text-teal-700 font-semibold">Your gift to support Oosh's development is appreciated but optional:</p>
