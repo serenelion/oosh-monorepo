@@ -178,9 +178,11 @@ const Oosh = () => {
                           {new Date(opportunity.startDate).toLocaleDateString()} - {new Date(opportunity.endDate).toLocaleDateString()}
                         </span>
                       </div>
-                      <Link to={`/farm-profile/${opportunity.postedBy.id}`} className="text-sm text-teal-600 hover:underline">
-                        Posted by: {opportunity.postedBy.name}
-                      </Link>
+                      {opportunity.postedBy && (
+                        <Link to={`/farm-profile/${opportunity.postedBy.id}`} className="text-sm text-teal-600 hover:underline">
+                          Posted by: {opportunity.postedBy.name}
+                        </Link>
+                      )}
                     </div>
                   </CardContent>
                 </Card>
