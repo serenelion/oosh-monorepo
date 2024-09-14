@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
 import { Plus } from 'lucide-react';
 
 const OPPORTUNITY_CATEGORIES = [
@@ -26,7 +27,7 @@ const CreateOpportunityDialog = ({ onCreateOpportunity }) => {
   const [currentTab, setCurrentTab] = useState('details');
 
   const handleCreate = () => {
-    if (title && description && category) {
+    if (title && description && category && location && startDate && endDate) {
       onCreateOpportunity({ title, description, category, location, startDate, endDate });
       // Reset form
       setTitle('');
@@ -56,29 +57,29 @@ const CreateOpportunityDialog = ({ onCreateOpportunity }) => {
             <TabsTrigger value="dateLocation">Date & Location</TabsTrigger>
           </TabsList>
           <TabsContent value="details">
-            <div className="grid gap-4 py-4">
-              <div className="grid gap-2">
-                <label htmlFor="title">Title</label>
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="title">Title</Label>
                 <Input
                   id="title"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
-                  className="col-span-3"
+                  className="mt-1"
                 />
               </div>
-              <div className="grid gap-2">
-                <label htmlFor="description">Description</label>
+              <div>
+                <Label htmlFor="description">Description</Label>
                 <Textarea
                   id="description"
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
-                  className="col-span-3"
+                  className="mt-1"
                 />
               </div>
-              <div className="grid gap-2">
-                <label htmlFor="category">Category</label>
+              <div>
+                <Label htmlFor="category">Category</Label>
                 <Select value={category} onValueChange={setCategory}>
-                  <SelectTrigger id="category">
+                  <SelectTrigger id="category" className="mt-1">
                     <SelectValue placeholder="Select a category" />
                   </SelectTrigger>
                   <SelectContent>
@@ -91,34 +92,34 @@ const CreateOpportunityDialog = ({ onCreateOpportunity }) => {
             </div>
           </TabsContent>
           <TabsContent value="dateLocation">
-            <div className="grid gap-4 py-4">
-              <div className="grid gap-2">
-                <label htmlFor="location">Location</label>
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="location">Location</Label>
                 <Input
                   id="location"
                   value={location}
                   onChange={(e) => setLocation(e.target.value)}
-                  className="col-span-3"
+                  className="mt-1"
                 />
               </div>
-              <div className="grid gap-2">
-                <label htmlFor="startDate">Start Date</label>
+              <div>
+                <Label htmlFor="startDate">Start Date</Label>
                 <Input
                   id="startDate"
                   type="date"
                   value={startDate}
                   onChange={(e) => setStartDate(e.target.value)}
-                  className="col-span-3"
+                  className="mt-1"
                 />
               </div>
-              <div className="grid gap-2">
-                <label htmlFor="endDate">End Date</label>
+              <div>
+                <Label htmlFor="endDate">End Date</Label>
                 <Input
                   id="endDate"
                   type="date"
                   value={endDate}
                   onChange={(e) => setEndDate(e.target.value)}
-                  className="col-span-3"
+                  className="mt-1"
                 />
               </div>
             </div>
