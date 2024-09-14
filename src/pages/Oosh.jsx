@@ -3,7 +3,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Leaf, Search, Sprout } from 'lucide-react';
+import { Leaf, Search, Sprout, MapPin, Calendar } from 'lucide-react';
 import AnimatedBackground from '@/components/AnimatedBackground';
 import { Link } from 'react-router-dom';
 
@@ -24,7 +24,11 @@ const Oosh = () => {
         location: "California, USA",
         description: "Join us for a week of hands-on experience in organic farming techniques.",
         startDate: "2024-06-01",
-        endDate: "2024-06-07"
+        endDate: "2024-06-07",
+        postedBy: {
+          id: "user123",
+          name: "John Doe",
+        },
       },
       {
         id: 2,
@@ -33,7 +37,11 @@ const Oosh = () => {
         location: "Virtual",
         description: "Comprehensive online course covering permaculture principles and design strategies.",
         startDate: "2024-07-15",
-        endDate: "2024-08-30"
+        endDate: "2024-08-30",
+        postedBy: {
+          id: "user456",
+          name: "Jane Smith",
+        },
       },
       {
         id: 3,
@@ -42,7 +50,11 @@ const Oosh = () => {
         location: "Vermont, USA",
         description: "6-month paid internship focused on sustainable farming practices and community engagement.",
         startDate: "2024-05-01",
-        endDate: "2024-10-31"
+        endDate: "2024-10-31",
+        postedBy: {
+          id: "user789",
+          name: "Green Acres Farm",
+        },
       },
       {
         id: 4,
@@ -51,7 +63,11 @@ const Oosh = () => {
         location: "Costa Rica",
         description: "Seeking investors for an eco-lodge project integrating permaculture principles.",
         startDate: "2024-09-01",
-        endDate: "2025-09-01"
+        endDate: "2025-09-01",
+        postedBy: {
+          id: "user101",
+          name: "EcoVentures Inc.",
+        },
       },
       {
         id: 5,
@@ -60,7 +76,11 @@ const Oosh = () => {
         location: "New York City, USA",
         description: "One-day workshop on maximizing food production in urban environments.",
         startDate: "2024-08-15",
-        endDate: "2024-08-15"
+        endDate: "2024-08-15",
+        postedBy: {
+          id: "user202",
+          name: "City Growers Association",
+        },
       }
     ];
 
@@ -146,16 +166,21 @@ const Oosh = () => {
               {filteredOpportunities.map((opportunity) => (
                 <Card key={opportunity.id} className="mb-4 hover:bg-teal-50 transition-colors">
                   <CardContent className="p-4">
-                    <h3 className="font-semibold text-lg text-teal-700">{opportunity.title}</h3>
-                    <p className="text-sm text-teal-600">{opportunity.category} • {opportunity.location}</p>
-                    <p className="text-teal-700 mt-2">{opportunity.description}</p>
+                    <Link to={`/opportunity/${opportunity.id}`} className="hover:underline">
+                      <h3 className="font-semibold text-lg text-teal-700">{opportunity.title}</h3>
+                    </Link>
+                    <p className="text-sm text-teal-600 mb-2">{opportunity.category} • {opportunity.location}</p>
+                    <p className="text-teal-700 mb-2">{opportunity.description}</p>
                     <div className="flex justify-between items-center mt-4">
-                      <span className="text-sm text-teal-600">
-                        {new Date(opportunity.startDate).toLocaleDateString()} - {new Date(opportunity.endDate).toLocaleDateString()}
-                      </span>
-                      <Button size="sm" variant="outline" className="text-teal-600 border-teal-300 hover:bg-teal-50">
-                        Learn More
-                      </Button>
+                      <div className="flex items-center space-x-2">
+                        <Calendar className="h-4 w-4 text-teal-600" />
+                        <span className="text-sm text-teal-600">
+                          {new Date(opportunity.startDate).toLocaleDateString()} - {new Date(opportunity.endDate).toLocaleDateString()}
+                        </span>
+                      </div>
+                      <Link to={`/farm-profile/${opportunity.postedBy.id}`} className="text-sm text-teal-600 hover:underline">
+                        Posted by: {opportunity.postedBy.name}
+                      </Link>
                     </div>
                   </CardContent>
                 </Card>

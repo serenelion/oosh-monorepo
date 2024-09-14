@@ -1,4 +1,4 @@
-import { HomeIcon, LogInIcon, Users, LayoutDashboard, Gift as GiftIcon, MessageSquare, Leaf, Home, PlusCircle, Tractor } from "lucide-react";
+import { HomeIcon, LogInIcon, Users, LayoutDashboard, Gift as GiftIcon, MessageSquare, Leaf, Home, PlusCircle, Tractor, Eye, Edit } from "lucide-react";
 import Index from "./pages/Index.jsx";
 import Auth from "./pages/Auth.jsx";
 import Join from "./pages/Join.jsx";
@@ -9,6 +9,8 @@ import Oosh from "./pages/Oosh.jsx";
 import FarmProfile from "./pages/FarmProfile.jsx";
 import CreateOpportunity from "./pages/CreateOpportunity.jsx";
 import FarmerOnboarding from "./pages/FarmerOnboarding.jsx";
+import OpportunityView from "./pages/OpportunityView.jsx";
+import OpportunityEdit from "./pages/OpportunityEdit.jsx";
 
 export const navItems = [
   {
@@ -70,5 +72,17 @@ export const navItems = [
     to: "/farmer-onboarding",
     icon: <Tractor className="h-4 w-4" />,
     page: <FarmerOnboarding />,
+  },
+  {
+    title: "View Opportunity",
+    to: "/opportunity/:id",
+    icon: <Eye className="h-4 w-4" />,
+    page: <OpportunityView />,
+  },
+  {
+    title: "Edit Opportunity",
+    to: "/opportunity/:id/edit",
+    icon: <Edit className="h-4 w-4" />,
+    page: <OpportunityEdit />,
   },
 ];
