@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { MessageSquare, Users, UserPlus, Plus, Leaf } from 'lucide-react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { MessageSquare, Users, UserPlus, Leaf } from 'lucide-react';
 import AIAssistantChat from '../components/AIAssistantChat';
+import CreateAssistantDialog from '../components/CreateAssistantDialog';
 
 const AIAssistant = ({ name, icon, onChat }) => (
   <Card className="mb-4 hover:shadow-md transition-shadow duration-200">
@@ -20,47 +19,6 @@ const AIAssistant = ({ name, icon, onChat }) => (
     </CardContent>
   </Card>
 );
-
-const CreateAssistantDialog = ({ onCreateAssistant }) => {
-  const [name, setName] = useState('');
-  const [description, setDescription] = useState('');
-
-  const handleCreate = () => {
-    onCreateAssistant({ name, description });
-    setName('');
-    setDescription('');
-  };
-
-  return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button className="w-full bg-teal-500 hover:bg-teal-600 text-white">
-          <Plus className="mr-2 h-4 w-4" /> Create New Assistant
-        </Button>
-      </DialogTrigger>
-      <DialogContent className="bg-white">
-        <DialogHeader>
-          <DialogTitle className="text-teal-700">Create New AI Assistant</DialogTitle>
-        </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <Input
-            placeholder="Assistant Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            className="border-teal-300 focus:ring-teal-500"
-          />
-          <Input
-            placeholder="Assistant Description"
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            className="border-teal-300 focus:ring-teal-500"
-          />
-          <Button onClick={handleCreate} className="bg-teal-500 hover:bg-teal-600 text-white">Create</Button>
-        </div>
-      </DialogContent>
-    </Dialog>
-  );
-};
 
 const Dashboard = () => {
   const [assistants, setAssistants] = useState([
