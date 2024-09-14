@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { MessageSquare, Users, Leaf, Settings, PlusSquare } from 'lucide-react';
+import { MessageSquare, Users, Leaf, Settings } from 'lucide-react';
 import AIAssistantChat from '../components/AIAssistantChat';
 import { useNavigate } from 'react-router-dom';
 
@@ -69,9 +69,13 @@ const Dashboard = () => {
                 />
               ))}
             </ScrollArea>
-            <Button onClick={() => navigate('/new-gpt')} className="w-full bg-teal-500 hover:bg-teal-600 text-white mt-4">
-              <PlusSquare className="mr-2 h-4 w-4" /> New GPT
-            </Button>
+            <Card className="mt-4 bg-teal-100 p-4">
+              <CardTitle className="text-sm font-medium text-teal-800 mb-2">Integrate Custom GPT</CardTitle>
+              <p className="text-sm text-teal-700">
+                To integrate a custom GPT like Farmer Friend (https://chatgpt.com/g/g-i4oCIx0X7-farmer-friend),
+                please contact our support team. We'll help you set it up in your Oosh environment.
+              </p>
+            </Card>
           </CardContent>
         </Card>
         <Card className="md:col-span-2 bg-white shadow-lg">
