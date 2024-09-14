@@ -24,13 +24,13 @@ const FarmerOnboarding = () => {
   const chatRef = useRef(null);
 
   const steps = [
-    { question: "Welcome to Oosh! Let's set up your farmer profile. What's the name of your farm?", field: 'farmName' },
-    { question: "Great! And what's your name?", field: 'farmerName' },
-    { question: "Where is your farm located?", field: 'location' },
-    { question: "Please provide a brief description of your farm:", field: 'description' },
-    { question: "What are the main products you produce? (Separate with commas)", field: 'products' },
-    { question: "Are there any current opportunities on your farm? (e.g., 'Seeking a greenhouse manager')", field: 'opportunities' },
-    { question: "Finally, what are some core values of your farm? (Separate with commas)", field: 'values' },
+    { question: "Welcome to Oosh! Let's create your unique farmer profile. What's the name of your farm or project?", field: 'farmName' },
+    { question: "Wonderful! And what's your name? We'd love to know who's behind this amazing initiative.", field: 'farmerName' },
+    { question: "Where is your farm or project located? This helps connect you with local opportunities and resources.", field: 'location' },
+    { question: "Now, let's paint a picture of your farm. In a few sentences, what makes your farm special?", field: 'description' },
+    { question: "What are the main products or services you offer? (Separate with commas, e.g., 'organic vegetables, honey, farm tours')", field: 'products' },
+    { question: "Are there any current opportunities or needs on your farm? (e.g., 'Seeking a greenhouse manager', 'Looking for volunteers')", field: 'opportunities' },
+    { question: "Finally, what are some core values or principles that guide your farm? These could be related to sustainability, community, or your farming philosophy. (Separate with commas)", field: 'values' },
   ];
 
   useEffect(() => {
@@ -64,9 +64,9 @@ const FarmerOnboarding = () => {
       }, 500);
     } else {
       setTimeout(() => {
-        addMessage("Great! Your farmer profile is complete. Let's review the information:", 'ai');
+        addMessage("Fantastic! You've completed your farmer profile. Let's review the information:", 'ai');
         addMessage(JSON.stringify(farmProfile, null, 2), 'ai');
-        addMessage("Is everything correct? Type 'yes' to confirm or 'edit' to make changes.", 'ai');
+        addMessage("Does everything look correct? Type 'yes' to confirm or 'edit' if you'd like to make any changes.", 'ai');
       }, 500);
     }
   };
@@ -88,15 +88,24 @@ const FarmerOnboarding = () => {
 
   const handleFinalConfirmation = (input) => {
     if (input.toLowerCase() === 'yes') {
-      // Save the profile and navigate to the dashboard
       console.log('Saving profile:', farmProfile);
-      navigate('/dashboard');
+      addMessage("Great! Your profile has been saved. We're excited to have you on board!", 'ai');
+      setTimeout(() => {
+        navigate('/dashboard');
+      }, 2000);
     } else if (input.toLowerCase() === 'edit') {
-      // Reset to the beginning of the onboarding process
       setCurrentStep(0);
       setMessages([{ text: steps[0].question, sender: 'ai' }]);
     } else {
-      addMessage("Please type 'yes' to confirm or 'edit' to make changes.", 'ai');
+      addMessage("I didn't quite catch that. Please type 'yes' to confirm your profile or 'edit' to make changes.", 'ai');
+    }
+  };
+
+  const handleInput = (input) => {
+    if (currentStep >= steps.length) {
+      handleFinalConfirmation(input);
+    } else {
+      handleSend();
     }
   };
 
@@ -133,7 +142,7 @@ const FarmerOnboarding = () => {
                 onKeyPress={handleKeyPress}
                 className="flex-grow mr-2 border-teal-300 focus:ring-teal-500"
               />
-              <Button onClick={handleSend} className="bg-teal-500 hover:bg-teal-600 text-white">
+              <Button onClick={() => handleInput(currentInput)} className="bg-teal-500 hover:bg-teal-600 text-white">
                 <Send className="h-4 w-4" />
               </Button>
             </div>
