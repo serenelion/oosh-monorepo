@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Plus, Cube } from 'lucide-react';
+import { Plus, PlusSquare } from 'lucide-react';
 
 const NewGPT = () => {
   const [currentTab, setCurrentTab] = useState('create');
@@ -33,7 +33,7 @@ const NewGPT = () => {
       <Card className="max-w-4xl mx-auto">
         <CardHeader>
           <CardTitle className="text-2xl font-bold flex items-center">
-            <Cube className="mr-2 h-6 w-6 text-teal-600" />
+            <PlusSquare className="mr-2 h-6 w-6 text-teal-600" />
             New GPT
           </CardTitle>
         </CardHeader>
