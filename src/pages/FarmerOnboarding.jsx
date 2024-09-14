@@ -5,31 +5,32 @@ import { Card, CardContent } from "@/components/ui/card";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Leaf, Send } from 'lucide-react';
 import AnimatedBackground from '@/components/AnimatedBackground';
+import { useNavigate } from 'react-router-dom';
 
 const FarmerOnboarding = () => {
-  // States for farmer profile data
-  const [farmName, setFarmName] = useState('');
-  const [farmerName, setFarmerName] = useState('');
-  const [location, setLocation] = useState('');
-  const [description, setDescription] = useState('');
-  const [products, setProducts] = useState([]);
-  const [opportunities, setOpportunities] = useState([]);
-  const [values, setValues] = useState([]);
-
-  // Chat interface states
+  const navigate = useNavigate();
+  const [farmProfile, setFarmProfile] = useState({
+    farmName: '',
+    farmerName: '',
+    location: '',
+    description: '',
+    products: [],
+    opportunities: [],
+    values: [],
+  });
   const [messages, setMessages] = useState([]);
   const [currentInput, setCurrentInput] = useState('');
   const [currentStep, setCurrentStep] = useState(0);
   const chatRef = useRef(null);
 
   const steps = [
-    { question: "Welcome to Oosh! Let's set up your farmer profile. What's the name of your farm?", state: setFarmName },
-    { question: "Great! And what's your name?", state: setFarmerName },
-    { question: "Where is your farm located?", state: setLocation },
-    { question: "Please provide a brief description of your farm:", state: setDescription },
-    { question: "What are the main products you produce? (Separate with commas)", state: (value) => setProducts(value.split(',').map(item => item.trim())) },
-    { question: "Are there any current opportunities on your farm? (e.g., 'Seeking a greenhouse manager')", state: (value) => setOpportunities(value.split(',').map(item => item.trim())) },
-    { question: "Finally, what are some core values of your farm? (Separate with commas)", state: (value) => setValues(value.split(',').map(item => item.trim())) },
+    { question: "Welcome to Oosh! Let's set up your farmer profile. What's the name of your farm?", field: 'farmName' },
+    { question: "Great! And what's your name?", field: 'farmerName' },
+    { question: "Where is your farm located?", field: 'location' },
+    { question: "Please provide a brief description of your farm:", field: 'description' },
+    { question: "What are the main products you produce? (Separate with commas)", field: 'products' },
+    { question: "Are there any current opportunities on your farm? (e.g., 'Seeking a greenhouse manager')", field: 'opportunities' },
+    { question: "Finally, what are some core values of your farm? (Separate with commas)", field: 'values' },
   ];
 
   useEffect(() => {
@@ -52,7 +53,7 @@ const FarmerOnboarding = () => {
     if (currentInput.trim() === '') return;
 
     addMessage(currentInput, 'user');
-    steps[currentStep].state(currentInput);
+    updateProfile(steps[currentStep].field, currentInput);
 
     setCurrentInput('');
     setCurrentStep(prevStep => prevStep + 1);
@@ -64,21 +65,38 @@ const FarmerOnboarding = () => {
     } else {
       setTimeout(() => {
         addMessage("Great! Your farmer profile is complete. Let's review the information:", 'ai');
-        addMessage(`Farm Name: ${farmName}
-Farmer Name: ${farmerName}
-Location: ${location}
-Description: ${description}
-Products: ${products.join(', ')}
-Opportunities: ${opportunities.join(', ')}
-Values: ${values.join(', ')}`, 'ai');
+        addMessage(JSON.stringify(farmProfile, null, 2), 'ai');
         addMessage("Is everything correct? Type 'yes' to confirm or 'edit' to make changes.", 'ai');
       }, 500);
     }
   };
 
+  const updateProfile = (field, value) => {
+    setFarmProfile(prevProfile => ({
+      ...prevProfile,
+      [field]: field === 'products' || field === 'opportunities' || field === 'values'
+        ? value.split(',').map(item => item.trim())
+        : value
+    }));
+  };
+
   const handleKeyPress = (e) => {
     if (e.key === 'Enter') {
       handleSend();
+    }
+  };
+
+  const handleFinalConfirmation = (input) => {
+    if (input.toLowerCase() === 'yes') {
+      // Save the profile and navigate to the dashboard
+      console.log('Saving profile:', farmProfile);
+      navigate('/dashboard');
+    } else if (input.toLowerCase() === 'edit') {
+      // Reset to the beginning of the onboarding process
+      setCurrentStep(0);
+      setMessages([{ text: steps[0].question, sender: 'ai' }]);
+    } else {
+      addMessage("Please type 'yes' to confirm or 'edit' to make changes.", 'ai');
     }
   };
 
