@@ -5,6 +5,7 @@ import { resolve } from "path";
 
 // https://vitejs.dev/config/
 export default defineConfig({
+  base: '/oosh-movement-creator-app-fe-60/',
   server: {
     host: "::",
     port: "8080",
