@@ -6,7 +6,7 @@ import LeftNav from '../components/LeftNav';
 
 const Dashboard = () => {
   const [assistants] = useState([
-    { id: 1, name: 'People Connector (Coming Soon)', icon: <Users className="h-6 w-6 text-teal-600" />, disabled: true },
+    { id: 1, name: 'People Connector', icon: <Users className="h-6 w-6 text-teal-600" /> },
     { id: 2, name: 'Marketing Genius', icon: <Lightbulb className="h-6 w-6 text-teal-600" /> },
     { id: 3, name: 'Solutions Engineer', icon: <Wrench className="h-6 w-6 text-teal-600" /> },
   ]);
@@ -15,7 +15,6 @@ const Dashboard = () => {
 
   const handleChat = (assistantId) => {
     const assistant = assistants.find(a => a.id === assistantId);
-    if (assistant.disabled) return;
     setActiveChat(assistant);
     const newChat = { id: Date.now(), assistant, messages: [] };
     setChats([newChat, ...chats]);
