@@ -5,15 +5,11 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Leaf, Search, Sprout } from 'lucide-react';
 import AnimatedBackground from '@/components/AnimatedBackground';
-import CreateOpportunityDialog from '@/components/CreateOpportunityDialog';
+import { Link } from 'react-router-dom';
 
 const Oosh = () => {
   const [opportunities, setOpportunities] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
-
-  const handleCreateOpportunity = (newOpportunity) => {
-    setOpportunities([newOpportunity, ...opportunities]);
-  };
 
   const filteredOpportunities = opportunities.filter(opp => 
     opp.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -35,7 +31,11 @@ const Oosh = () => {
               <Sprout className="mr-2 h-5 w-5 sm:h-6 sm:w-6" />
               Opportunities
             </CardTitle>
-            <CreateOpportunityDialog onCreateOpportunity={handleCreateOpportunity} />
+            <Link to="/create">
+              <Button className="w-full sm:w-auto bg-teal-500 hover:bg-teal-600 text-white">
+                Create New Opportunity
+              </Button>
+            </Link>
           </CardHeader>
           <CardContent>
             <div className="flex flex-col sm:flex-row mb-4 space-y-2 sm:space-y-0 sm:space-x-2">
