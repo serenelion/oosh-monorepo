@@ -1,4 +1,4 @@
-import { HomeIcon, LogInIcon, Users, LayoutDashboard, Gift as GiftIcon, MessageSquare, Leaf, Farm } from "lucide-react";
+import { HomeIcon, LogInIcon, Users, LayoutDashboard, Gift as GiftIcon, MessageSquare, Leaf, Home } from "lucide-react";
 import Index from "./pages/Index.jsx";
 import Auth from "./pages/Auth.jsx";
 import Join from "./pages/Join.jsx";
@@ -54,7 +54,7 @@ export const navItems = [
   {
     title: "Farm Profile",
     to: "/farm-profile",
-    icon: <Farm className="h-4 w-4" />,
+    icon: <Home className="h-4 w-4" />,
     page: <FarmProfile />,
   },
 ];
