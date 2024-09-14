@@ -1,8 +1,9 @@
-import { HomeIcon, LogInIcon, Users, LayoutDashboard } from "lucide-react";
+import { HomeIcon, LogInIcon, Users, LayoutDashboard, Gift } from "lucide-react";
 import Index from "./pages/Index.jsx";
 import Auth from "./pages/Auth.jsx";
 import Join from "./pages/Join.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
+import Gift from "./pages/Gift.jsx";
 
 export const navItems = [
   {
@@ -28,5 +29,11 @@ export const navItems = [
     to: "/dashboard",
     icon: <LayoutDashboard className="h-4 w-4" />,
     page: <Dashboard />,
+  },
+  {
+    title: "Choose Your Gift",
+    to: "/gift",
+    icon: <Gift className="h-4 w-4" />,
+    page: <Gift />,
   },
 ];
