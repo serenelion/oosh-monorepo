@@ -34,16 +34,16 @@ const GiftPage = () => {
             You're now part of a vibrant community dedicated to regenerative practices!
           </p>
           <p className="text-teal-600 text-center">
-            We're thrilled to have you on board. Let's start by choosing a gift that resonates with you and supports our shared vision.
+            We're thrilled to have you on board. Let's start by choosing a gift that resonates with you and supports our shared vision for a sustainable future.
           </p>
           <p className="text-teal-700 font-semibold text-center">
-            Your gift fuels our collective journey towards a regenerative future!
+            Your contribution fuels our collective journey towards regenerative innovation!
           </p>
           <p className="text-teal-600 text-sm text-center">
-            Every contribution, big or small, makes a difference. Choose an amount that feels right for you:
+            Every gift, no matter the size, makes a significant impact. Choose an amount that feels right for you:
           </p>
           <div className="grid grid-cols-2 gap-4">
-            {[10, 50, 100, 500].map((amount) => (
+            {[10, 25, 50, 100].map((amount) => (
               <Button key={amount} onClick={() => handleGift(amount)} className="bg-teal-500 hover:bg-teal-600 text-white">
                 ${amount}
               </Button>
@@ -62,9 +62,12 @@ const GiftPage = () => {
             </Button>
           </div>
           <Button onClick={handleSkipGift} className="w-full bg-gray-200 hover:bg-gray-300 text-teal-700">
-            Skip for now
+            Join without gifting
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
+          <p className="text-teal-600 text-xs text-center">
+            Your gift supports Oosh's mission to advance permaculture and sustainable practices worldwide.
+          </p>
         </CardContent>
       </Card>
     </div>
