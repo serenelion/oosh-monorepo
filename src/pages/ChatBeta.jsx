@@ -35,8 +35,7 @@ const ChatBeta = () => {
     setIsTyping(true);
 
     try {
-      // TODO: Replace with actual API call
-      const response = await fetch('/api/chat', {
+      const response = await fetch('https://sea-turtle-app-4in2t.ondigitalocean.app/api/chat', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -45,7 +44,7 @@ const ChatBeta = () => {
       });
 
       if (!response.ok) {
-        throw new Error('Network response was not ok');
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
 
       const data = await response.json();
