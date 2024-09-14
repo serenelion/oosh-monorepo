@@ -8,6 +8,7 @@ import { Send, Leaf } from 'lucide-react';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import FlowerOfLife from '@/components/FlowerOfLife';
 import WaveAnimation from '@/components/WaveAnimation';
+import AnimatedBackground from '@/components/AnimatedBackground';
 
 const Index = () => {
   const [messages, setMessages] = useState([]);
@@ -56,8 +57,8 @@ const Index = () => {
   };
 
   return (
-    <div className="flex flex-col h-screen bg-gradient-to-br from-teal-50 to-teal-100 relative">
-      <FlowerOfLife />
+    <div className="flex flex-col h-screen relative overflow-hidden">
+      <AnimatedBackground />
       <header className="bg-white bg-opacity-80 shadow-sm p-4 flex justify-between items-center relative z-20">
         <h1 className="text-2xl font-bold text-teal-700 flex items-center">
           <Leaf className="mr-2 h-6 w-6 text-teal-500" />
@@ -119,7 +120,6 @@ const Index = () => {
           </div>
         </Card>
       </main>
-      <WaveAnimation />
     </div>
   );
 };
