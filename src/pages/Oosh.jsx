@@ -4,18 +4,24 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Leaf, Search, Users, Calendar, BookOpen, Sprout, Home, PlusCircle } from 'lucide-react';
+import { Leaf, Search, Users, Calendar, BookOpen, Sprout, Home } from 'lucide-react';
 import AnimatedBackground from '@/components/AnimatedBackground';
 import { Link } from 'react-router-dom';
 import CreatePostForm from '@/components/CreatePostForm';
+import CreateOpportunityDialog from '@/components/CreateOpportunityDialog';
 
 const Oosh = () => {
   const [showCreatePost, setShowCreatePost] = useState(false);
   const [posts, setPosts] = useState([]);
+  const [opportunities, setOpportunities] = useState([]);
 
   const handleCreatePost = (newPost) => {
     setPosts([newPost, ...posts]);
     setShowCreatePost(false);
+  };
+
+  const handleCreateOpportunity = (newOpportunity) => {
+    setOpportunities([newOpportunity, ...opportunities]);
   };
 
   return (
@@ -33,10 +39,12 @@ const Oosh = () => {
               <Home className="mr-2 h-6 w-6" />
               Community Feed
             </CardTitle>
-            <Button onClick={() => setShowCreatePost(!showCreatePost)} className="bg-teal-500 hover:bg-teal-600 text-white">
-              <PlusCircle className="mr-2 h-4 w-4" />
-              Create Post
-            </Button>
+            <div className="space-x-2">
+              <Button onClick={() => setShowCreatePost(!showCreatePost)} className="bg-teal-500 hover:bg-teal-600 text-white">
+                Create Post
+              </Button>
+              <CreateOpportunityDialog onCreateOpportunity={handleCreateOpportunity} />
+            </div>
           </CardHeader>
           <CardContent>
             {showCreatePost && (
@@ -49,7 +57,7 @@ const Oosh = () => {
                 <Card key={index} className="mb-4 hover:bg-teal-50 transition-colors">
                   <CardContent className="p-4">
                     <h3 className="font-semibold text-lg text-teal-700">{post.title}</h3>
-                    <p className="text-sm text-teal-600 mb-2">{post.type} • {post.tags.join(', ')}</p>
+                    <p className="text-sm text-teal-600 mb-2">{post.type}</p>
                     <p className="text-teal-700">{post.content}</p>
                   </CardContent>
                 </Card>
@@ -84,24 +92,14 @@ const Oosh = () => {
               </TabsList>
               <TabsContent value="all">
                 <ScrollArea className="h-64">
-                  <Card className="mb-4 hover:bg-teal-50 transition-colors">
-                    <CardContent className="p-4">
-                      <h3 className="font-semibold text-lg text-teal-700">Greenhouse Manager Needed</h3>
-                      <p className="text-sm text-teal-600">Job • Finca Aluna, Ometepe Island, Nicaragua</p>
-                    </CardContent>
-                  </Card>
-                  <Card className="mb-4 hover:bg-teal-50 transition-colors">
-                    <CardContent className="p-4">
-                      <h3 className="font-semibold text-lg text-teal-700">Permaculture Design Course</h3>
-                      <p className="text-sm text-teal-600">Education • Online</p>
-                    </CardContent>
-                  </Card>
-                  <Card className="mb-4 hover:bg-teal-50 transition-colors">
-                    <CardContent className="p-4">
-                      <h3 className="font-semibold text-lg text-teal-700">Community Garden Project</h3>
-                      <p className="text-sm text-teal-600">Volunteer • Various Locations</p>
-                    </CardContent>
-                  </Card>
+                  {opportunities.map((opportunity, index) => (
+                    <Card key={index} className="mb-4 hover:bg-teal-50 transition-colors">
+                      <CardContent className="p-4">
+                        <h3 className="font-semibold text-lg text-teal-700">{opportunity.title}</h3>
+                        <p className="text-sm text-teal-600">{opportunity.category} • {opportunity.location}</p>
+                      </CardContent>
+                    </Card>
+                  ))}
                 </ScrollArea>
               </TabsContent>
             </Tabs>
