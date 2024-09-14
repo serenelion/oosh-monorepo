@@ -1,10 +1,9 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 import { Leaf, ChevronDown } from 'lucide-react';
@@ -74,7 +73,7 @@ const CreateOpportunity = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (editor) {
-      const content = editor.getHTML();
+      const content = editor.getJSON();
       console.log('Form submitted:', { title, selectedCategory, metadata, startDate, endDate, location, content });
       navigate('/opportunities');
     }
