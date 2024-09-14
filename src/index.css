@@ -178,7 +178,6 @@
   @apply opacity-0;
 }
 
-/* Responsive styles */
 @media (max-width: 640px) {
   .chat-bubble {
     @apply p-3 max-w-[90%];
