@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { MessageSquare, Users, Leaf, ClipboardList, Lightbulb, Wrench } from 'lucide-react';
+import { MessageSquare, Users, Leaf, Lightbulb, Wrench } from 'lucide-react';
 import AIAssistantChat from '../components/AIAssistantChat';
 import LeftNav from '../components/LeftNav';
-import { Button } from "@/components/ui/button";
-import { useNavigate } from 'react-router-dom';
 
 const Dashboard = () => {
   const [assistants] = useState([
@@ -14,7 +12,6 @@ const Dashboard = () => {
   ]);
   const [activeChat, setActiveChat] = useState(null);
   const [chats, setChats] = useState([]);
-  const navigate = useNavigate();
 
   const handleChat = (assistantId) => {
     const assistant = assistants.find(a => a.id === assistantId);
@@ -31,15 +28,7 @@ const Dashboard = () => {
         chats={chats}
         onSelectAssistant={handleChat}
         onSelectChat={(chat) => setActiveChat(chat.assistant)}
-      >
-        <Button
-          onClick={() => navigate('/clarity')}
-          className="w-full mt-4 bg-teal-500 hover:bg-teal-600 text-white"
-        >
-          <ClipboardList className="h-4 w-4 mr-2" />
-          Project Management
-        </Button>
-      </LeftNav>
+      />
       <main className="flex-1 flex flex-col">
         <header className="bg-white border-b border-gray-200 p-4">
           <h1 className="text-2xl font-bold text-teal-800 flex items-center">
@@ -55,7 +44,7 @@ const Dashboard = () => {
               <Leaf className="h-16 w-16 mr-4" />
               <div>
                 <h2 className="text-2xl font-bold mb-2">Welcome to Oosh</h2>
-                <p>Select an AI Assistant to start chatting or manage your projects</p>
+                <p>Select an AI Assistant to start chatting</p>
               </div>
             </div>
           )}
