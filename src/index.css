@@ -67,7 +67,7 @@
 }
 
 .chat-bubble {
-  @apply relative rounded-lg p-4 max-w-[80%] shadow-sm;
+  @apply relative rounded-lg p-6 max-w-[80%] shadow-sm;
 }
 
 .chat-bubble::after {
@@ -147,4 +147,25 @@
 @keyframes bounce {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-4px); }
+}
+
+/* Responsive styles */
+@media (max-width: 640px) {
+  .chat-bubble {
+    @apply p-4 max-w-[90%];
+  }
+  
+  .chat-input-container {
+    @apply p-2;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .chat-bubble {
+    @apply p-5 max-w-[85%];
+  }
+  
+  .chat-input-container {
+    @apply p-3;
+  }
 }

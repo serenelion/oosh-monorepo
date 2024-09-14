@@ -5,7 +5,7 @@ import { MessageSquare } from 'lucide-react';
 
 const LeftNav = ({ assistants, chats, onSelectAssistant, onSelectChat }) => {
   return (
-    <nav className="w-64 bg-gray-50 border-r border-gray-200 flex flex-col">
+    <nav className="w-full md:w-64 bg-gray-50 border-r border-gray-200 flex flex-col">
       <ScrollArea className="flex-1">
         <div className="p-4">
           <h2 className="font-semibold mb-2">AI Assistants</h2>
