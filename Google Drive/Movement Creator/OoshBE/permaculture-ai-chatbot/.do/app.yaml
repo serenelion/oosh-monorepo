@@ -1,0 +1,27 @@
+name: permaculture-ai-chatbot
+services:
+- name: web
+  github:
+    branch: main
+    deploy_on_push: true
+    repo: Giving-Back-Studio/ooshBE
+  build_command: npm run build
+  run_command: node server.js  # Make sure this is correct
+  envs:
+  - key: NODE_ENV
+    value: production
+  - key: SUPABASE_URL
+    scope: RUN_AND_BUILD_TIME
+    value: ${SUPABASE_URL}
+  - key: SUPABASE_ANON_KEY
+    scope: RUN_AND_BUILD_TIME
+    value: ${SUPABASE_ANON_KEY}
+  - key: BRAVE_API_KEY
+    scope: RUN_AND_BUILD_TIME
+    value: ${BRAVE_API_KEY}
+  - key: NEXT_PUBLIC_SUPABASE_URL
+    scope: RUN_AND_BUILD_TIME
+    value: ${SUPABASE_URL}
+  - key: NEXT_PUBLIC_SUPABASE_ANON_KEY
+    scope: RUN_AND_BUILD_TIME
+    value: ${SUPABASE_ANON_KEY}
