@@ -1,11 +1,15 @@
-// Import all the relevant exports from other files in the supabase directory
 import { supabase } from './supabase.js';
 import { SupabaseAuthProvider, useSupabaseAuth, SupabaseAuthUI } from './auth.jsx';
+import { useChats, useChat, useAddChat, useUpdateChat, useDeleteChat } from './hooks/chats.js';
 
-// Export all the imported functions and objects from .auth and .hooks/
 export {
   supabase,
   SupabaseAuthProvider,
   useSupabaseAuth,
   SupabaseAuthUI,
+  useChats,
+  useChat,
+  useAddChat,
+  useUpdateChat,
+  useDeleteChat,
 };
