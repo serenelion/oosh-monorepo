@@ -11,6 +11,7 @@ import Header from '@editorjs/header';
 import List from '@editorjs/list';
 import Embed from '@editorjs/embed';
 import Image from '@editorjs/image';
+import DragDrop from '@editorjs/drag-drop';
 
 const OPPORTUNITY_CATEGORIES = [
   { value: 'volunteer', label: 'Volunteer', icon: <Users className="h-6 w-6" /> },
@@ -50,6 +51,11 @@ const CreateOpportunity = () => {
         image: Image,
       },
       placeholder: 'Enter opportunity details here...',
+      inlineToolbar: ['link', 'bold', 'italic'],
+      data: {},
+      onReady: () => {
+        new DragDrop(editor);
+      },
     });
     editorInstanceRef.current = editor;
   };
@@ -116,7 +122,10 @@ const CreateOpportunity = () => {
                 </div>
                 <div>
                   <Label>Details</Label>
-                  <div ref={editorRef} className="mt-1 border border-gray-300 rounded-md min-h-[200px]" />
+                  <div 
+                    ref={editorRef} 
+                    className="mt-1 border border-gray-300 rounded-md min-h-[200px] p-4"
+                  />
                 </div>
               </div>
               <div className="pt-6">
