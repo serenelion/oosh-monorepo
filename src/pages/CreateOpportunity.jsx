@@ -4,7 +4,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
-import { Leaf, X } from 'lucide-react';
+import { Textarea } from "@/components/ui/textarea";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
+import { Leaf, ChevronDown } from 'lucide-react';
 import AnimatedBackground from '@/components/AnimatedBackground';
 import EditorJS from '@editorjs/editorjs';
 import Header from '@editorjs/header';
@@ -18,13 +21,46 @@ import CodeTool from '@editorjs/code';
 import Table from '@editorjs/table';
 
 const OPPORTUNITY_CATEGORIES = [
-  'Volunteer', 'Job', 'Investment', 'Live Event', 'Online Training', 'Land for Sale'
+  { value: 'volunteer', label: 'Volunteer' },
+  { value: 'job', label: 'Job' },
+  { value: 'investment', label: 'Investment' },
+  { value: 'liveEvent', label: 'Live Event' },
+  { value: 'onlineTraining', label: 'Online Training' },
+  { value: 'landForSale', label: 'Land for Sale' },
 ];
+
+const CATEGORY_METADATA = {
+  volunteer: [
+    { name: 'duration', label: 'Duration', type: 'text' },
+    { name: 'skills', label: 'Required Skills', type: 'text' },
+  ],
+  job: [
+    { name: 'salary', label: 'Salary Range', type: 'text' },
+    { name: 'employmentType', label: 'Employment Type', type: 'text' },
+  ],
+  investment: [
+    { name: 'amount', label: 'Investment Amount', type: 'number' },
+    { name: 'equity', label: 'Equity Offered', type: 'text' },
+  ],
+  liveEvent: [
+    { name: 'venue', label: 'Venue', type: 'text' },
+    { name: 'capacity', label: 'Capacity', type: 'number' },
+  ],
+  onlineTraining: [
+    { name: 'platform', label: 'Platform', type: 'text' },
+    { name: 'duration', label: 'Duration', type: 'text' },
+  ],
+  landForSale: [
+    { name: 'acreage', label: 'Acreage', type: 'number' },
+    { name: 'price', label: 'Price', type: 'number' },
+  ],
+};
 
 const CreateOpportunity = () => {
   const navigate = useNavigate();
   const [title, setTitle] = useState('');
-  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [metadata, setMetadata] = useState({});
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
   const [location, setLocation] = useState('');
@@ -41,8 +77,8 @@ const CreateOpportunity = () => {
           class: ImageTool,
           config: {
             endpoints: {
-              byFile: 'http://localhost:8008/uploadFile', // Replace with your image upload endpoint
-              byUrl: 'http://localhost:8008/fetchUrl', // Replace with your image fetch endpoint
+              byFile: 'http://localhost:8008/uploadFile',
+              byUrl: 'http://localhost:8008/fetchUrl',
             }
           }
         },
@@ -73,18 +109,18 @@ const CreateOpportunity = () => {
     e.preventDefault();
     if (editor) {
       const data = await editor.save();
-      console.log('Form submitted:', { title, selectedCategories, startDate, endDate, location, details: data });
-      // TODO: Send data to backend
+      console.log('Form submitted:', { title, selectedCategory, metadata, startDate, endDate, location, details: data });
       navigate('/opportunities');
     }
   };
 
-  const toggleCategory = (category) => {
-    setSelectedCategories(prev => 
-      prev.includes(category) 
-        ? prev.filter(c => c !== category)
-        : [...prev, category]
-    );
+  const handleCategoryChange = (category) => {
+    setSelectedCategory(category);
+    setMetadata({});
+  };
+
+  const handleMetadataChange = (field, value) => {
+    setMetadata(prev => ({ ...prev, [field]: value }));
   };
 
   return (
@@ -100,8 +136,8 @@ const CreateOpportunity = () => {
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit} className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div className="md:col-span-1 space-y-4">
                   <div>
                     <Label htmlFor="title">Title</Label>
                     <Input
@@ -113,29 +149,42 @@ const CreateOpportunity = () => {
                     />
                   </div>
                   <div>
-                    <Label>Categories</Label>
-                    <div className="flex flex-wrap gap-2 mt-1">
-                      {OPPORTUNITY_CATEGORIES.map((category) => (
-                        <Button
-                          key={category}
-                          type="button"
-                          onClick={() => toggleCategory(category)}
-                          variant={selectedCategories.includes(category) ? "default" : "outline"}
-                          size="sm"
-                          className={`${
-                            selectedCategories.includes(category)
-                              ? 'bg-teal-500 text-white'
-                              : 'text-teal-700 border-teal-300'
-                          } hover:bg-teal-600 hover:text-white transition-colors`}
-                        >
-                          {category}
-                          {selectedCategories.includes(category) && (
-                            <X className="ml-1 h-3 w-3" />
-                          )}
+                    <Label>Category</Label>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button variant="outline" className="w-full justify-between mt-1">
+                          {selectedCategory ? OPPORTUNITY_CATEGORIES.find(c => c.value === selectedCategory)?.label : 'Select category'}
+                          <ChevronDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                         </Button>
-                      ))}
-                    </div>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-full p-0">
+                        <RadioGroup value={selectedCategory} onValueChange={handleCategoryChange} className="flex flex-col">
+                          {OPPORTUNITY_CATEGORIES.map((category) => (
+                            <Label
+                              key={category.value}
+                              htmlFor={category.value}
+                              className="flex items-center space-x-2 px-4 py-2 hover:bg-gray-100 cursor-pointer"
+                            >
+                              <RadioGroupItem value={category.value} id={category.value} />
+                              <span>{category.label}</span>
+                            </Label>
+                          ))}
+                        </RadioGroup>
+                      </PopoverContent>
+                    </Popover>
                   </div>
+                  {selectedCategory && CATEGORY_METADATA[selectedCategory].map((field) => (
+                    <div key={field.name}>
+                      <Label htmlFor={field.name}>{field.label}</Label>
+                      <Input
+                        id={field.name}
+                        type={field.type}
+                        value={metadata[field.name] || ''}
+                        onChange={(e) => handleMetadataChange(field.name, e.target.value)}
+                        className="mt-1"
+                      />
+                    </div>
+                  ))}
                   <div>
                     <Label htmlFor="location">Location</Label>
                     <Input
@@ -168,9 +217,9 @@ const CreateOpportunity = () => {
                     </div>
                   </div>
                 </div>
-                <div>
+                <div className="md:col-span-2">
                   <Label>Details</Label>
-                  <div id="editorjs" className="min-h-[400px] border border-gray-300 rounded-md p-2 mt-1"></div>
+                  <div id="editorjs" className="min-h-[500px] border border-gray-300 rounded-md p-2 mt-1"></div>
                 </div>
               </div>
               <Button type="submit" className="w-full bg-teal-500 hover:bg-teal-600 text-white">
