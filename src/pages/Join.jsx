@@ -14,7 +14,7 @@ const Join = () => {
     e.preventDefault();
     // TODO: Implement actual signup logic
     console.log('User signed up with:', { email, password });
-    navigate('/onboarding');
+    navigate('/gift');
   };
 
   return (
