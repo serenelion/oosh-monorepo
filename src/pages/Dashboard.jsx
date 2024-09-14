@@ -2,9 +2,9 @@ import React, { useState } from 'react';
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { MessageSquare, Users, UserPlus, Leaf, Settings } from 'lucide-react';
+import { MessageSquare, Users, Leaf, Settings, Cube } from 'lucide-react';
 import AIAssistantChat from '../components/AIAssistantChat';
-import CreateAssistantDialog from '../components/CreateAssistantDialog';
+import { useNavigate } from 'react-router-dom';
 
 const AIAssistant = ({ name, icon, onChat, onConfigure }) => (
   <Card className="mb-4 hover:shadow-md transition-shadow duration-200">
@@ -31,14 +31,11 @@ const Dashboard = () => {
     { id: 2, name: 'Farmer Friend', icon: <MessageSquare className="h-6 w-6 text-teal-600" /> },
   ]);
   const [activeChat, setActiveChat] = useState(null);
+  const navigate = useNavigate();
 
   const handleChat = (assistantId) => {
     const assistant = assistants.find(a => a.id === assistantId);
     setActiveChat(assistant);
-  };
-
-  const handleCreateAssistant = (newAssistant) => {
-    setAssistants([...assistants, { id: Date.now(), ...newAssistant, icon: <UserPlus className="h-6 w-6 text-teal-600" /> }]);
   };
 
   const handleConfigureAssistant = (assistantId) => {
@@ -72,7 +69,9 @@ const Dashboard = () => {
                 />
               ))}
             </ScrollArea>
-            <CreateAssistantDialog onCreateAssistant={handleCreateAssistant} />
+            <Button onClick={() => navigate('/new-gpt')} className="w-full bg-teal-500 hover:bg-teal-600 text-white mt-4">
+              <Cube className="mr-2 h-4 w-4" /> New GPT
+            </Button>
           </CardContent>
         </Card>
         <Card className="md:col-span-2 bg-white shadow-lg">
