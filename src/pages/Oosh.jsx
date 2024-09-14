@@ -4,21 +4,12 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Leaf, Search, Users, Calendar, BookOpen, Sprout, Home } from 'lucide-react';
+import { Leaf, Search, Users, Calendar, Sprout } from 'lucide-react';
 import AnimatedBackground from '@/components/AnimatedBackground';
-import { Link } from 'react-router-dom';
-import CreatePostForm from '@/components/CreatePostForm';
 import CreateOpportunityDialog from '@/components/CreateOpportunityDialog';
 
 const Oosh = () => {
-  const [showCreatePost, setShowCreatePost] = useState(false);
-  const [posts, setPosts] = useState([]);
   const [opportunities, setOpportunities] = useState([]);
-
-  const handleCreatePost = (newPost) => {
-    setPosts([newPost, ...posts]);
-    setShowCreatePost(false);
-  };
 
   const handleCreateOpportunity = (newOpportunity) => {
     setOpportunities([newOpportunity, ...opportunities]);
@@ -30,45 +21,16 @@ const Oosh = () => {
       <div className="relative z-10 max-w-6xl mx-auto">
         <h1 className="text-4xl font-bold mb-8 text-teal-800 text-center flex items-center justify-center">
           <Leaf className="mr-2 h-8 w-8 text-teal-600" />
-          Oosh: Permaculture Community Hub
+          Oosh: Permaculture Opportunities Hub
         </h1>
         
         <Card className="mb-8 shadow-lg bg-white bg-opacity-90 backdrop-blur-sm border-teal-200">
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle className="text-2xl text-teal-700 flex items-center">
-              <Home className="mr-2 h-6 w-6" />
-              Community Feed
+              <Sprout className="mr-2 h-6 w-6" />
+              Opportunities
             </CardTitle>
-            <div className="space-x-2">
-              <Button onClick={() => setShowCreatePost(!showCreatePost)} className="bg-teal-500 hover:bg-teal-600 text-white">
-                Create Post
-              </Button>
-              <CreateOpportunityDialog onCreateOpportunity={handleCreateOpportunity} />
-            </div>
-          </CardHeader>
-          <CardContent>
-            {showCreatePost && (
-              <div className="mb-6">
-                <CreatePostForm onSubmit={handleCreatePost} />
-              </div>
-            )}
-            <ScrollArea className="h-[400px]">
-              {posts.map((post, index) => (
-                <Card key={index} className="mb-4 hover:bg-teal-50 transition-colors">
-                  <CardContent className="p-4">
-                    <h3 className="font-semibold text-lg text-teal-700">{post.title}</h3>
-                    <p className="text-sm text-teal-600 mb-2">{post.type}</p>
-                    <p className="text-teal-700">{post.content}</p>
-                  </CardContent>
-                </Card>
-              ))}
-            </ScrollArea>
-          </CardContent>
-        </Card>
-        
-        <Card className="mt-8 shadow-lg bg-white bg-opacity-90 backdrop-blur-sm border-teal-200">
-          <CardHeader>
-            <CardTitle className="text-2xl text-teal-700">Discover Opportunities</CardTitle>
+            <CreateOpportunityDialog onCreateOpportunity={handleCreateOpportunity} />
           </CardHeader>
           <CardContent>
             <div className="flex mb-4">
@@ -86,17 +48,20 @@ const Oosh = () => {
               <TabsList className="mb-4">
                 <TabsTrigger value="all">All</TabsTrigger>
                 <TabsTrigger value="volunteer">Volunteer</TabsTrigger>
-                <TabsTrigger value="jobs">Jobs</TabsTrigger>
-                <TabsTrigger value="events">Events</TabsTrigger>
-                <TabsTrigger value="education">Education</TabsTrigger>
+                <TabsTrigger value="job">Job</TabsTrigger>
+                <TabsTrigger value="investment">Investment</TabsTrigger>
+                <TabsTrigger value="live-event">Live Event</TabsTrigger>
+                <TabsTrigger value="online-training">Online Training</TabsTrigger>
+                <TabsTrigger value="land-for-sale">Land for Sale</TabsTrigger>
               </TabsList>
               <TabsContent value="all">
-                <ScrollArea className="h-64">
+                <ScrollArea className="h-[400px]">
                   {opportunities.map((opportunity, index) => (
                     <Card key={index} className="mb-4 hover:bg-teal-50 transition-colors">
                       <CardContent className="p-4">
                         <h3 className="font-semibold text-lg text-teal-700">{opportunity.title}</h3>
                         <p className="text-sm text-teal-600">{opportunity.category} • {opportunity.location}</p>
+                        <p className="text-teal-700 mt-2">{opportunity.description}</p>
                       </CardContent>
                     </Card>
                   ))}
