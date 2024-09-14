@@ -30,9 +30,20 @@ const FarmerFriend = () => {
 
   useEffect(() => {
     setMessages([
-      { role: 'bot', content: "Hello! I'm your Farmer Friend Assistant, a digital community organizer. My purpose is to help build a directory of all the permacultures on the planet. Are you a permaculture farmer or an enthusiast?" },
+      { role: 'bot', content: "Hello! I'm your Farmer Friend Assistant, a digital community organizer. My purpose is to help build a directory of all the permacultures on the planet. Are you a permaculture farmer or an enthusiast?", showButtons: true },
     ]);
   }, []);
+
+  const handleUserTypeSelection = (type) => {
+    setUserType(type);
+    const newMessages = [
+      ...messages,
+      { role: 'user', content: type === 'farmer' ? 'I am a permaculture farmer' : 'I am a permaculture enthusiast' },
+      { role: 'bot', content: `Wonderful! It's great to meet a permaculture ${type}. ${type === 'farmer' ? farmerQuestions[0] : enthusiastQuestions[0]}` }
+    ];
+    setMessages(newMessages);
+    setCurrentStep(0);
+  };
 
   const sendMessage = async () => {
     if (input.trim() === '') return;
@@ -40,28 +51,16 @@ const FarmerFriend = () => {
     let newMessages = [...messages, { role: 'user', content: input }];
     let botResponse = '';
 
-    if (userType === null) {
-      if (input.toLowerCase().includes('farmer')) {
-        setUserType('farmer');
-        botResponse = "Wonderful! It's great to meet a permaculture farmer. " + farmerQuestions[0];
-      } else if (input.toLowerCase().includes('enthusiast')) {
-        setUserType('enthusiast');
-        botResponse = "Fantastic! We're always excited to connect with permaculture enthusiasts. " + enthusiastQuestions[0];
-      } else {
-        botResponse = "I'm sorry, I didn't catch that. Are you a permaculture farmer or an enthusiast?";
-      }
-    } else {
-      const questions = userType === 'farmer' ? farmerQuestions : enthusiastQuestions;
-      setUserData({ ...userData, [questions[currentStep]]: input });
+    const questions = userType === 'farmer' ? farmerQuestions : enthusiastQuestions;
+    setUserData({ ...userData, [questions[currentStep]]: input });
 
-      if (currentStep < questions.length - 1) {
-        setCurrentStep(currentStep + 1);
-        botResponse = questions[currentStep + 1];
-      } else {
-        botResponse = userType === 'farmer'
-          ? "Thank you so much for sharing about your farm! Your information will help us connect you with like-minded individuals and potential opportunities. Is there anything else you'd like to know about our permaculture community?"
-          : "Thank you for sharing your interests! We'll use this information to help connect you with exciting permaculture opportunities. Is there anything specific you'd like to know about permaculture practices or our community?";
-      }
+    if (currentStep < questions.length - 1) {
+      setCurrentStep(currentStep + 1);
+      botResponse = questions[currentStep + 1];
+    } else {
+      botResponse = userType === 'farmer'
+        ? "Thank you so much for sharing about your farm! Your information will help us connect you with like-minded individuals and potential opportunities. Is there anything else you'd like to know about our permaculture community?"
+        : "Thank you for sharing your interests! We'll use this information to help connect you with exciting permaculture opportunities. Is there anything specific you'd like to know about permaculture practices or our community?";
     }
 
     newMessages.push({ role: 'bot', content: botResponse });
@@ -86,22 +85,34 @@ const FarmerFriend = () => {
               {messages.map((msg, index) => (
                 <div key={index} className={`chat-bubble ${msg.role === 'user' ? 'chat-bubble-user' : 'chat-bubble-ai'} animate-fadeIn`}>
                   {msg.content}
+                  {msg.showButtons && (
+                    <div className="flex justify-center space-x-4 mt-4">
+                      <Button onClick={() => handleUserTypeSelection('farmer')} className="bg-green-500 hover:bg-green-600 text-white">
+                        Farmer
+                      </Button>
+                      <Button onClick={() => handleUserTypeSelection('enthusiast')} className="bg-blue-500 hover:bg-blue-600 text-white">
+                        Enthusiast
+                      </Button>
+                    </div>
+                  )}
                 </div>
               ))}
             </ScrollArea>
-            <div className="flex items-center">
-              <Input
-                type="text"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
-                placeholder="Type your response..."
-                className="flex-grow mr-2 border-green-300 focus:ring-green-500"
-              />
-              <Button onClick={sendMessage} className="bg-green-500 hover:bg-green-600 text-white">
-                <Send className="h-4 w-4" />
-              </Button>
-            </div>
+            {userType && (
+              <div className="flex items-center">
+                <Input
+                  type="text"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
+                  placeholder="Type your response..."
+                  className="flex-grow mr-2 border-green-300 focus:ring-green-500"
+                />
+                <Button onClick={sendMessage} className="bg-green-500 hover:bg-green-600 text-white">
+                  <Send className="h-4 w-4" />
+                </Button>
+              </div>
+            )}
           </CardContent>
         </Card>
       </main>
