@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ScrollArea } from "@/components/ui/scroll-area";
-import { Leaf, Search, Users, Calendar, BookOpen, Sprout, Farm } from 'lucide-react';
+import { Leaf, Search, Users, Calendar, BookOpen, Sprout, Home } from 'lucide-react';
 import AnimatedBackground from '@/components/AnimatedBackground';
 import { Link } from 'react-router-dom';
 
@@ -21,7 +21,7 @@ const Oosh = () => {
         <Card className="mb-8 shadow-lg bg-white bg-opacity-90 backdrop-blur-sm border-teal-200">
           <CardHeader>
             <CardTitle className="text-2xl text-teal-700 flex items-center">
-              <Farm className="mr-2 h-6 w-6" />
+              <Home className="mr-2 h-6 w-6" />
               Featured Farm
             </CardTitle>
           </CardHeader>
