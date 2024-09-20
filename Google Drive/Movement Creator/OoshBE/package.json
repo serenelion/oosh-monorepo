@@ -1,9 +1,10 @@
 {
   "name": "ooshbe",
   "version": "1.0.0",
-  "main": "index.js",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "NODE_ENV=development nodemon --exec babel-node server.js"
   },
   "keywords": [],
   "author": "",
@@ -11,5 +12,13 @@
   "description": "",
   "dependencies": {
     "express-rate-limit": "^6.7.0"
+  },
+  "devDependencies": {
+    "jest": "^29.5.0",
+    "eslint": "^8.38.0",
+    "prettier": "^2.8.7"
+  },
+  "engines": {
+    "node": ">=18.x"
   }
 }

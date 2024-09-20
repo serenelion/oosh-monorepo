@@ -1,6 +1,9 @@
-const supabase = require('../supabaseClient');
+import supabase from '../supabaseClient.js';
+import config from '../config/index.js';
 
-exports.createOpportunity = async (req, res) => {
+const { logger } = require('../logger');
+
+exports.createOpportunity = async (req, res, next) => {
   try {
     const { title, category, location, start_date, end_date, details } = req.body;
     const { data, error } = await supabase
@@ -18,13 +21,15 @@ exports.createOpportunity = async (req, res) => {
 
     if (error) throw error;
 
+    logger.info('Opportunity created', { opportunityId: data[0].id, userId: req.user.id });
     res.status(201).json(data[0]);
   } catch (error) {
-    res.status(500).json({ message: 'Error creating opportunity', error: error.message });
+    logger.error('Error creating opportunity', { error: error.message, userId: req.user.id });
+    next(error);
   }
 };
 
-exports.getOpportunities = async (req, res) => {
+exports.getOpportunities = async (req, res, next) => {
   try {
     const { data, error } = await supabase
       .from('opportunities')
@@ -34,11 +39,12 @@ exports.getOpportunities = async (req, res) => {
 
     res.status(200).json(data);
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching opportunities', error: error.message });
+    logger.error('Error fetching opportunities', { error: error.message });
+    next(error);
   }
 };
 
-exports.getOpportunity = async (req, res) => {
+exports.getOpportunity = async (req, res, next) => {
   try {
     const { id } = req.params;
     const { data, error } = await supabase
@@ -55,7 +61,8 @@ exports.getOpportunity = async (req, res) => {
 
     res.status(200).json(data);
   } catch (error) {
-    res.status(500).json({ message: 'Error fetching opportunity', error: error.message });
+    logger.error('Error fetching opportunity', { error: error.message, opportunityId: req.params.id });
+    next(error);
   }
 };
 
